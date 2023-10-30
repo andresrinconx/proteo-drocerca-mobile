@@ -1,10 +1,17 @@
-import { View } from 'react-native'
+import { NativeBaseProvider } from 'native-base'
+import { LoginProvider } from './src/contexts/LoginProvider'
+import { ProteoProvider } from './src/contexts/ProteoProvider'
+import { Navigation } from './src/components'
 
 const App = () => {
   return (
-    <View>
-      
-    </View>
+    <NativeBaseProvider>
+      <LoginProvider>
+        <ProteoProvider>
+          <Navigation />
+        </ProteoProvider>
+      </LoginProvider>
+    </NativeBaseProvider>
   )
 }
 
