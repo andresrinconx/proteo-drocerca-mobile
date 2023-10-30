@@ -11,7 +11,7 @@ const LoginContext = createContext<{
   setLogin: () => { 
     // do nothing
   },
-  myUser: { codigo: '', conexion: '' },
+  myUser: { cedula: '', conexion: '' },
   setMyUser: () => {
     // do nothing
   },
@@ -20,7 +20,7 @@ const LoginContext = createContext<{
 export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
   const [login, setLogin] = useState(false)
   const [myUser, setMyUser] = useState<MyUser>({
-    codigo: '',
+    cedula: '',
     conexion: ''
   })
   

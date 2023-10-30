@@ -29,24 +29,30 @@ const Login = () => {
       setLoadingAuth(true)
     }
 
-    // login
-    const res = await fetchLogin({ usuario: user, password })
-
-    if (res?.message) {
-      setIncorrectCredentials(true)
-    } else {
-      setIncorrectCredentials(false)
-
-      await setDataStorage('myUser', { ...res })
-      await setDataStorage('login', true)
-      setMyUser({ ...res })
-      setLogin(true)
-
+    // auth
+    try {
+      const res = await fetchLogin({ usuario: user, password })
+      
+      if (res?.message) {
+        setLoadingAuth(false)
+        setIncorrectCredentials(true)
+      } else {
+        setIncorrectCredentials(false)
+  
+        await setDataStorage('myUser', { ...res })
+        await setDataStorage('login', true)
+        setMyUser({ ...res })
+        setLogin(true)
+  
+        setLoadingAuth(false)
+        setShowPassword(false)
+        // navigation.navigate('Home')
+        setUser('')
+        setPassword('')
+      }
+    } catch (error) {
       setLoadingAuth(false)
-      setShowPassword(false)
-      // navigation.navigate('Home')
-      setUser('')
-      setPassword('')
+      setIncorrectCredentials(true)
     }
   }
 
