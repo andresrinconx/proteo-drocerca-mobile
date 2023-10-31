@@ -3,6 +3,10 @@ import axios from 'axios'
 
 const apiBaseUrl = LOCAL_API_URL
 
+export const testUrl = () => {
+  return apiBaseUrl
+}
+
 // -----------------------------------------------
 // ENDPOINTS
 // -----------------------------------------------

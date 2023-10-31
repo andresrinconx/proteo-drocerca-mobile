@@ -15,5 +15,5 @@ export {
   Modal,
   ModalInfo,
   TextImage,
-  LoadingLogoScreen
+  LoadingLogoScreen,
 }
