@@ -1,4 +1,5 @@
 export interface MyUser {
-  codigo: string
+  cedula: string
   conexion: string
+  sede: string
 }
