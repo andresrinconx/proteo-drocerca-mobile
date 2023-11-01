@@ -15,14 +15,18 @@ const Navigation = () => {
 
   useEffect(() => {
     const getStorage = async () => {
-      // myUser
-      const myUserStorage = await getDataStorage('myUser')
-      const userData = JSON.parse(myUserStorage as string) as MyUser
-      const myUser = userData.sede ? userData : { cedula: '', conexion: '', sede: '' }
-      setMyUser(myUser)
-
-      // go to screen
-      setLoading(false)
+      try {
+        // myUser
+        const myUserStorage = await getDataStorage('myUser')
+        const userData = JSON.parse(myUserStorage as string) as MyUser
+        const myUser = userData.sede ? userData : { cedula: '', conexion: '', sede: '' }
+        setMyUser(myUser)
+  
+        // go to screen
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+      }
     }
     getStorage()
   }, [])

@@ -27,7 +27,7 @@ const LogOut = () => {
   return (
     <View>
       <Text className='text-blue bg-gray' 
-        style={{ fontFamily: 'Poppins-Regular', fontSize: wp(5) }}
+        style={{ fontSize: wp(5) }}
         onPress={logOut}
       >
         Log Out

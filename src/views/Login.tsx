@@ -58,6 +58,7 @@ const Login = () => {
         navigation.navigate('Home')
         setUser('')
         setPassword('')
+        setSede('')
       } else {
         setLoadingAuth(false)
         setError('* Datos incorrectos')
@@ -84,7 +85,7 @@ const Login = () => {
 
         {/* user */}
         <View className='flex flex-col justify-center h-12 rounded-full bg-light-gray'>
-          <TextInput className='pl-5 rounded-full text-gray' 
+          <TextInput className='pl-5 rounded-full font-semibold text-gray' 
             style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}
             placeholder='Usuario'
             placeholderTextColor={gray}
@@ -96,7 +97,7 @@ const Login = () => {
 
         {/* password */}
         <View className='flex flex-col justify-center h-12 rounded-full bg-light-gray'>
-          <TextInput className='pl-5 rounded-full text-gray'
+          <TextInput className='pl-5 rounded-full font-semibold text-gray'
             style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}
             secureTextEntry={!showPassword}
             placeholder='Contraseña'
@@ -119,7 +120,7 @@ const Login = () => {
 
         {/* sede */}
         <View className='flex flex-col justify-center h-12 rounded-full bg-light-gray'>
-          <Menu style={{ backgroundColor: lightGray, borderRadius: 20, marginTop: wp(1) }} 
+          <Menu style={{ backgroundColor: lightGray, borderRadius: 20, marginTop: 5 }} 
             shadow={1} 
             w={wp(67)} 
             trigger={triggerProps => 
@@ -131,7 +132,7 @@ const Login = () => {
                   {sede ? sede : 'Sede'}
                 </Text>
 
-                <View className='flex flex-row justify-center items-center absolute right-2 top-2'>
+                <View className='flex flex-row justify-center items-center absolute' style={{ right: wp(2), top: wp(2) }}>
                   <ChevronDownIcon size={wp(6)} color={blue} strokeWidth={2} />
                 </View>
               </Pressable>
@@ -153,7 +154,7 @@ const Login = () => {
         </View>
 
         {/* error */}
-        <Text className='h-12 text-center text-blue' style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}>
+        <Text className='h-12 font-semibold text-center text-blue' style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}>
           {error ?? ''}
         </Text>
 
