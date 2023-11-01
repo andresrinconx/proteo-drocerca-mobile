@@ -5,5 +5,5 @@ import useProteo from './useProteo'
 export {
   useNavigation,
   useLogin,
-  useProteo
+  useProteo,
 }

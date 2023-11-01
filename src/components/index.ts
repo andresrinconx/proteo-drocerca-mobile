@@ -6,6 +6,7 @@ import Modal from './elements/Modal'
 import ModalInfo from './elements/ModalInfo'
 import TextImage from './elements/TextImage'
 import LoadingLogoScreen from './proteo/LoadingLogoScreen'
+import LogOut from './auth/LogOut'
 
 export {
   Navigation,
@@ -16,4 +17,5 @@ export {
   ModalInfo,
   TextImage,
   LoadingLogoScreen,
+  LogOut,
 }

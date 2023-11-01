@@ -1,5 +1,6 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { MyUser } from '../utils/types'
+import { apiBaseUrlSede } from '../utils/api'
 
 const LoginContext = createContext<{
   myUser: MyUser
@@ -17,6 +18,12 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
     conexion: '',
     sede: '',
   })
+
+  useEffect(() => {
+    if (myUser.sede) {
+      apiBaseUrlSede(myUser.sede)
+    }
+  }, [myUser])
   
   return (
     <LoginContext.Provider value={{
