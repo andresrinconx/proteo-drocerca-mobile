@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "213415659380",
+    "project_id": "proteo-erp",
+    "storage_bucket": "proteo-erp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213415659380:android:1fe40bb3cd8047a66e4e21",
+        "android_client_info": {
+          "package_name": "com.proteoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwV75RSKsylcOJpZj_JM3TcFO8I0NUdbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

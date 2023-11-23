@@ -1,8 +1,8 @@
-import { useContext } from 'react'
-import LoginContext from '../contexts/LoginProvider'
+import { useContext } from 'react';
+import LoginContext from '../contexts/LoginProvider';
 
 const useLogin = () => {
-  return useContext(LoginContext)
-}
+  return useContext(LoginContext);
+};
 
-export default useLogin
+export default useLogin;

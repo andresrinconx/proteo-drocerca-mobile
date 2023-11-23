@@ -1,30 +1,49 @@
-import { createContext, useState, useEffect } from 'react'
-import { MyUser } from '../utils/types'
-import { apiBaseUrlSede } from '../utils/api'
+import { createContext, useState, useEffect } from 'react';
+import { PermissionsAndroid } from 'react-native';
+import { MyUser } from '../utils/types';
+import { setBaseUrl } from '../utils/api';
+import { notificationListener, requestUserPermission } from '../utils/pushNotification';
 
 const LoginContext = createContext<{
   myUser: MyUser
   setMyUser: (myUser: MyUser) => void
 }>({
-  myUser: { cedula: '', conexion: '', sede: '' },
+  myUser: { cedula: '', codigo: '', conexion: '', sede: '' },
   setMyUser: () => {
     // do nothing
   },
-})
+});
 
 export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
   const [myUser, setMyUser] = useState<MyUser>({
     cedula: '',
+    codigo: '',
     conexion: '',
     sede: '',
-  })
+  });
 
+  // ***********************************************
+  // PERMISSIONS
+  // ***********************************************
+
+  // Notifications
+  useEffect(() => {
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+    requestUserPermission();
+    notificationListener();
+  }, []);
+
+  // ***********************************************
+  // SEDE
+  // ***********************************************
+
+  // Change sede to API calls
   useEffect(() => {
     if (myUser.sede) {
-      apiBaseUrlSede(myUser.sede)
+      setBaseUrl(myUser.sede);
     }
-  }, [myUser])
-  
+  }, [myUser]);
+
   return (
     <LoginContext.Provider value={{
       myUser,
@@ -32,7 +51,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
     }}>
       {children}
     </LoginContext.Provider>
-  )
-}
+  );
+};
 
-export default LoginContext
+export default LoginContext;

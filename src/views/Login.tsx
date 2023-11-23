@@ -1,73 +1,78 @@
-import { useState, useEffect } from 'react'
-import { View, StatusBar, Image, TextInput, Text, Pressable, TouchableOpacity } from 'react-native'
-import { Menu } from 'native-base'
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import { themeColors } from '../../tailwind.config'
-import { ChevronDownIcon, EyeIcon, EyeSlashIcon } from 'react-native-heroicons/mini'
-import { fetchLogin } from '../utils/api'
-import { setDataStorage } from '../utils/asyncStorage'
-import { useNavigation, useLogin } from '../hooks'
-import { Loader } from '../components'
+import { useState, useEffect } from 'react';
+import { View, StatusBar, Image, TextInput, Text, Pressable, TouchableOpacity } from 'react-native';
+import { Menu } from 'native-base';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { themeColors } from '../../tailwind.config';
+import { ChevronDownIcon, EyeIcon, EyeSlashIcon } from 'react-native-heroicons/mini';
+import { fetchLogin } from '../utils/api';
+import { setDataStorage } from '../utils/asyncStorage';
+import { sedes } from '../utils/constants';
+import { getFirebaseCloudMessagingToken } from '../utils/pushNotification';
+import { useNavigation, useLogin } from '../hooks';
+import { Loader } from '../components';
 
 const Login = () => {
-  const [user, setUser] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [sede, setSede] = useState('')
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [sede, setSede] = useState('');
 
-  const [error, setError] = useState('')
-  const [loadingAuth, setLoadingAuth] = useState(false)
+  const [error, setError] = useState('');
+  const [loadingAuth, setLoadingAuth] = useState(false);
 
-  const navigation = useNavigation()
-  const { myUser, setMyUser } = useLogin()
-  const { background, gray, 'light-gray': lightGray, blue } = themeColors
-  const sedes = ['Mérida', 'Centro', 'Oriente']
+  const navigation = useNavigation();
+  const { myUser, setMyUser } = useLogin();
+  const { background, gray, 'light-gray': lightGray, blue } = themeColors;
 
   // Update sede
   useEffect(() => {
     const updateSede = async () => {
       if (sede) {
-        await setDataStorage('myUser', { ...myUser, sede })
-        setMyUser({ ...myUser, sede })
+        await setDataStorage('myUser', { ...myUser, sede });
+        setMyUser({ ...myUser, sede });
       }
-    }
-    updateSede()
-  }, [sede])
+    };
+    updateSede();
+  }, [sede]);
 
   // Auth
   const auth = async () => {
     // validation
     if ([user, password, sede].includes('')) {
-      setError('* Todos los campos son obligatorios')
-      return
+      setError('* Todos los campos son obligatorios');
+      return;
     }
 
     // auth
-    setError('')
-    setLoadingAuth(true)
+    setError('');
+    setLoadingAuth(true);
     
     try {
-      const res = await fetchLogin({ usuario: user, password })
+      const res = await fetchLogin({ 
+        user, 
+        password,
+        fcmToken: await getFirebaseCloudMessagingToken() as string
+      });
       
-      if (!res?.error) {
-        await setDataStorage('myUser', { ...res, sede })
-        setMyUser({ ...res, sede })
+      if (!res?.msg) {
+        await setDataStorage('myUser', { ...res, sede });
+        setMyUser({ ...res, sede });
   
-        setLoadingAuth(false)
-        setShowPassword(false)
-        navigation.navigate('Home')
-        setUser('')
-        setPassword('')
-        setSede('')
+        setLoadingAuth(false);
+        setShowPassword(false);
+        navigation.navigate('Home');
+        setUser('');
+        setPassword('');
+        setSede('');
       } else {
-        setLoadingAuth(false)
-        setError('* Datos incorrectos')
+        setLoadingAuth(false);
+        setError('* Datos incorrectos');
       }
     } catch (error) {
-      setLoadingAuth(false)
-      setError('* Datos incorrectos')
+      setLoadingAuth(false);
+      setError('* Datos incorrectos');
     }
-  }
+  };
 
   return (
     <View className='flex-1 bg-background'>
@@ -76,7 +81,7 @@ const Login = () => {
       {/* logo */}
       <View className='flex items-center pt-10'>
         <Image style={{ width: wp(70), height: wp(20) }} resizeMode='contain'
-          source={require('../public/logo.png')}
+          source={require('../assets/logo.png')}
         />
       </View>
 
@@ -139,7 +144,7 @@ const Login = () => {
             }
           >
             {sedes.map((sede, index) => {
-              const isLast = index === sedes.length - 1
+              const isLast = index === sedes.length - 1;
               return (
                 <Menu.Item key={sede} onPress={() => setSede(sede)}
                   style={{ borderBottomWidth: isLast ? 0 : 0.3, borderBottomColor: gray }}
@@ -148,7 +153,7 @@ const Login = () => {
                     {sede}
                   </Text>
                 </Menu.Item>
-              )
+              );
             })}
           </Menu>
         </View>
@@ -180,14 +185,14 @@ const Login = () => {
               <Loader size={40} color='white' />
             ) : (
               <Image style={{ width: wp(10), height: wp(10) }} resizeMode='cover'
-                source={require('../public/arrow.png')}
+                source={require('../assets/arrow.png')}
               />
             )}
           </TouchableOpacity>
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

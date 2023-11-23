@@ -1,7 +1,9 @@
-import Login from './Login'
-import Home from './Home'
+import Login from './Login';
+import Profile from './Profile';
+import Permissions from './Permissions';
 
 export {
   Login,
-  Home,
-}
+  Profile,
+  Permissions,
+};

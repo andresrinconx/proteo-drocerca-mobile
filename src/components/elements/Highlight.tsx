@@ -1,8 +1,8 @@
-import { TouchableHighlight } from 'react-native'
-import { themeColors } from '../../../tailwind.config'
+import { TouchableHighlight } from 'react-native';
+import { themeColors } from '../../../tailwind.config';
 
 const Highlight = ({ children, padding, onPress }: { children: React.ReactNode, padding: number, onPress: () => void }) => {
-  const { 'light-gray': lightGray } = themeColors
+  const { 'light-gray': lightGray } = themeColors;
   
   return (
     <TouchableHighlight
@@ -13,7 +13,7 @@ const Highlight = ({ children, padding, onPress }: { children: React.ReactNode, 
     >
       {children}
     </TouchableHighlight>
-  )
-}
+  );
+};
 
-export default Highlight
+export default Highlight;

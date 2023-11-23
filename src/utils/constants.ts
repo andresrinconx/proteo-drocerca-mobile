@@ -1,0 +1,1 @@
+export const sedes = ['Mérida', 'Centro', 'Oriente'];

@@ -1,8 +1,8 @@
-import { useContext } from 'react'
-import ProteoContext from '../contexts/ProteoProvider'
+import { useContext } from 'react';
+import ProteoContext from '../contexts/ProteoProvider';
 
 const useProteo = () => {
-  return useContext(ProteoContext)
-}
+  return useContext(ProteoContext);
+};
 
-export default useProteo
+export default useProteo;
