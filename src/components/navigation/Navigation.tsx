@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import SplashScreen from 'react-native-splash-screen';
 import { getDataStorage } from '../../utils/asyncStorage';
 import { MyUser } from '../../utils/types';
 import { useLogin } from '../../hooks';
@@ -56,8 +57,10 @@ const Navigation = () => {
   
         // go to screen
         setLoading(false);
+        SplashScreen.hide();
       } catch (error) {
         setLoading(false);
+        SplashScreen.hide();
       }
     };
     getStorage();
