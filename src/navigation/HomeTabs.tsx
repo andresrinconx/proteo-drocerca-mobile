@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabNavigator } from '../components';
-import { Profile, Permissions } from '../screens';
+import { Profile, Permissions, Payroll, Birthdays } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,11 +21,11 @@ const HomeTabs = () => {
       />
       <Tab.Screen 
         name='Payroll'
-        component={Profile}
+        component={Payroll}
       />
       <Tab.Screen 
         name='Birthdays'
-        component={Permissions}
+        component={Birthdays}
       />
     </Tab.Navigator>
   );
