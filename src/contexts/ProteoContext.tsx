@@ -1,10 +1,10 @@
 import { createContext, useState } from 'react';
 
-const ProteoContext = createContext<{
-  
-}>({
-  
-});
+interface ProteoContextProps {
+
+}
+
+export const ProteoContext = createContext({} as ProteoContextProps);
 
 export const ProteoProvider = ({ children }: { children: React.ReactNode }) => {
   
@@ -17,5 +17,3 @@ export const ProteoProvider = ({ children }: { children: React.ReactNode }) => {
     </ProteoContext.Provider>
   );
 };
-
-export default ProteoContext;

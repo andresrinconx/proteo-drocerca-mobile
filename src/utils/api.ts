@@ -1,13 +1,11 @@
 import { LOCAL_API_URL_MERIDA, LOCAL_API_URL_CENTRO, LOCAL_API_URL_ORIENTE } from '@env';
 import axios from 'axios';
+import { getDataStorage } from './asyncStorage';
+import { Login } from '../interfaces/api';
 
-// ***********************************************
-// API URL
-// ***********************************************
+let apiBaseUrl: string;
 
-export let apiBaseUrl: string;
-
-export const setBaseUrl = (sede: string) => {
+export const setBaseUrl = async (sede: string) => {
   switch (sede) {
     case 'Mérida':
       apiBaseUrl = LOCAL_API_URL_MERIDA;
@@ -26,22 +24,27 @@ export const setBaseUrl = (sede: string) => {
 // ***********************************************
 
 // User session
-const loginEndpoint = () => `${apiBaseUrl}/api/user/login`;
+const authEndpoint = () => `${apiBaseUrl}/api/user/auth`;
+const validateEndpoint = () => `${apiBaseUrl}/api/user/validate`;
 const logOutEndpoint = () => `${apiBaseUrl}/api/user/logout`;
 
 // ***********************************************
 // API CALL
 // ***********************************************
 
-const apiCall = async (endpoint: string, method: Uppercase<string>, data?: unknown)=>{
+const apiCall = async <T>(endpoint: string, method: Uppercase<string>, data?: unknown): Promise<T> => {
   try {
+    const jwt = await getDataStorage('jwt');
     const res = await axios.request({
       method,
       url: endpoint,
-      data: data ? data : { }
+      data: data ? data : { },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`
+      }
     });
-    return res.data;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return res.data as T;
   } catch (error: any) {
     throw new Error(error?.response?.data?.msg);
   }
@@ -52,9 +55,12 @@ const apiCall = async (endpoint: string, method: Uppercase<string>, data?: unkno
 // ***********************************************
 
 // User session
-export const fetchLogin = (data: { user: string, password: string, fcmToken: string }) => {
-  return apiCall(loginEndpoint(), 'POST', data);
+export const fetchAuth = (data: { user: string, password: string, fcmToken: string }) => {
+  return apiCall<Login>(authEndpoint(), 'POST', data);
 };
-export const fetchLogOut = (code: string) => {
-  return apiCall(logOutEndpoint(), 'POST', { code });
+export const fetchValidate = () => {
+  return apiCall<Login>(validateEndpoint(), 'GET');
+};
+export const fetchLogOut = () => {
+  return apiCall(logOutEndpoint(), 'POST');
 };

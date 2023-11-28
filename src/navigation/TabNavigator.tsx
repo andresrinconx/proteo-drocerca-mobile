@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { View, Pressable, Image, Animated, Easing } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { themeColors } from '../../../tailwind.config';
+import { blue } from '../utils/theme';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { TabIcon } from '..';
+import { TabIcon } from '../components';
 
 const TabNavigator = ({
   state,
@@ -41,12 +41,12 @@ const TabNavigator = ({
   }, []);
 
   return (
-    <View className='relative' style={{ backgroundColor: themeColors.blue, height: wp(15) }}>
+    <View className='relative' style={{ backgroundColor: blue, height: wp(15) }}>
       {/* dog */}
       <View className='absolute -bottom-7'>
         <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
           <Image style={{ width: wp(38), height: wp(38) }} resizeMode='contain'
-            source={require('../../assets/proteo-transparent.png')}
+            source={require('../assets/proteo-transparent.png')}
           />
         </Animated.View>
       </View>

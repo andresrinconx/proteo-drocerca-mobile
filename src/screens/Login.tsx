@@ -1,76 +1,65 @@
-import { useState, useEffect } from 'react';
 import { View, StatusBar, Image, TextInput, Text, Pressable, TouchableOpacity } from 'react-native';
 import { Menu } from 'native-base';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { themeColors } from '../../tailwind.config';
+import { background, gray, lightGray, blue } from '../utils/theme';
 import { ChevronDownIcon, EyeIcon, EyeSlashIcon } from 'react-native-heroicons/mini';
-import { fetchLogin } from '../utils/api';
+import { fetchAuth, setBaseUrl } from '../utils/api';
 import { setDataStorage } from '../utils/asyncStorage';
 import { sedes } from '../utils/constants';
-import { getFirebaseCloudMessagingToken } from '../utils/pushNotification';
-import { useNavigation, useLogin } from '../hooks';
+import { getFCMToken } from '../helpers/pushNotification';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useAuth, useForm } from '../hooks';
 import { Loader } from '../components';
 
-const Login = () => {
-  const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [sede, setSede] = useState('');
+interface Props extends NativeStackScreenProps<any, any> {}
 
-  const [error, setError] = useState('');
-  const [loadingAuth, setLoadingAuth] = useState(false);
+const Login = ({ navigation }: Props) => {
+  const { changeValue, user, password, sede, showPassword, error, loadingAuth } = useForm({
+    user: '',
+    password: '',
+    sede: '',
+    showPassword: false,
+    error: '',
+    loadingAuth: false,
+  });
+  const { setAuth, auth } = useAuth();
 
-  const navigation = useNavigation();
-  const { myUser, setMyUser } = useLogin();
-  const { background, gray, 'light-gray': lightGray, blue } = themeColors;
+  const changeSede = async (sede: string) => {
+    await setDataStorage('sede', sede);
+    setBaseUrl(sede);
+    changeValue('sede', sede);
+  };
 
-  // Update sede
-  useEffect(() => {
-    const updateSede = async () => {
-      if (sede) {
-        await setDataStorage('myUser', { ...myUser, sede });
-        setMyUser({ ...myUser, sede });
-      }
-    };
-    updateSede();
-  }, [sede]);
-
-  // Auth
-  const auth = async () => {
-    // validation
+  const logIn = async () => {
     if ([user, password, sede].includes('')) {
-      setError('* Todos los campos son obligatorios');
+      changeValue('error', '* Todos los campos son obligatorios');
       return;
     }
 
-    // auth
-    setError('');
-    setLoadingAuth(true);
+    changeValue('error', '');
+    changeValue('loadingAuth', true);
     
     try {
-      const res = await fetchLogin({ 
+      const res = await fetchAuth({ 
         user, 
         password,
-        fcmToken: await getFirebaseCloudMessagingToken() as string
+        fcmToken: await getFCMToken() as string
       });
       
-      if (!res?.msg) {
-        await setDataStorage('myUser', { ...res, sede });
-        setMyUser({ ...res, sede });
+      if (res) {
+        await setDataStorage('sede', sede);
+        await setDataStorage('jwt', res.jwt);
+        setAuth({...auth, status: 'authenticated', isBoss: res.isBoss});
   
-        setLoadingAuth(false);
-        setShowPassword(false);
-        navigation.navigate('Home');
-        setUser('');
-        setPassword('');
-        setSede('');
+        navigation.replace('Home');
+        changeValue('loadingAuth', false);
       } else {
-        setLoadingAuth(false);
-        setError('* Datos incorrectos');
+        changeValue('loadingAuth', false);
+        changeValue('error', '* Datos incorrectos');
       }
     } catch (error) {
-      setLoadingAuth(false);
-      setError('* Datos incorrectos');
+      changeValue('loadingAuth', false);
+      changeValue('error', '* Datos incorrectos');
     }
   };
 
@@ -95,7 +84,7 @@ const Login = () => {
             placeholder='Usuario'
             placeholderTextColor={gray}
             value={user}
-            onChangeText={setUser}
+            onChangeText={(text) => changeValue('user', text)}
             selectionColor={gray}
           />
         </View>
@@ -108,16 +97,16 @@ const Login = () => {
             placeholder='Contraseña'
             placeholderTextColor={gray}
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(text) => changeValue('password', text)}
             selectionColor={gray}
           />
           {!showPassword && (
-            <TouchableOpacity onPress={() => setShowPassword(true)} className='absolute right-3'>
+            <TouchableOpacity onPress={() => changeValue('showPassword', true)} className='absolute right-3'>
               <EyeIcon size={wp(7)} color={gray} />
             </TouchableOpacity>
           )}
           {showPassword && (
-            <TouchableOpacity onPress={() => setShowPassword(false)} className='absolute right-3'>
+            <TouchableOpacity onPress={() => changeValue('showPassword', false)} className='absolute right-3'>
               <EyeSlashIcon size={wp(7)} color={gray} />
             </TouchableOpacity>
           )}
@@ -146,7 +135,7 @@ const Login = () => {
             {sedes.map((sede, index) => {
               const isLast = index === sedes.length - 1;
               return (
-                <Menu.Item key={sede} onPress={() => setSede(sede)}
+                <Menu.Item key={sede} onPress={() => changeSede(sede)}
                   style={{ borderBottomWidth: isLast ? 0 : 0.3, borderBottomColor: gray }}
                 >
                   <Text className='font-normal text-gray' style={{ fontFamily: 'Poppins-Regular' }}>
@@ -169,7 +158,7 @@ const Login = () => {
       <View className='flex flex-row items-center justify-center bg-background'>
         <View className='flex flex-row justify-center items-center rounded-t-full bg-blue' style={{ width: wp(160), height: wp(75) }}>
           <TouchableOpacity className='flex flex-row items-center justify-center rounded-full border-[8px] border-background bg-blue' 
-            onPress={auth}
+            onPress={logIn}
             style={{
               width: wp(25), 
               height: wp(25), 

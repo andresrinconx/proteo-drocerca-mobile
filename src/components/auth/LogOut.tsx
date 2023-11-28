@@ -1,34 +1,9 @@
 import { View, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { setDataStorage } from '../../utils/asyncStorage';
-import { useLogin, useNavigation } from '../../hooks';
-import { fetchLogOut } from '../../utils/api';
+import { useAuth } from '../../hooks';
 
 const LogOut = () => {
-  const { setMyUser, myUser: { codigo } } = useLogin();
-  const navigation = useNavigation();
-
-  const logOut = async () => {
-    // restore
-    setMyUser({
-      cedula: '',
-      codigo: '',
-      conexion: '',
-      sede: '',
-    });
-    await setDataStorage('myUser', {
-      cedula: '',
-      codigo: '',
-      conexion: '',
-      sede: '',
-    });
-
-    // update db
-    await fetchLogOut(`${codigo}`);
-
-    // go Login
-    navigation.navigate('Login');
-  };
+  const { logOut } = useAuth();
 
   return (
     <View>

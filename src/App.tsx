@@ -1,17 +1,20 @@
 import { NativeBaseProvider } from 'native-base';
-import { LoginProvider } from './contexts/LoginProvider';
-import { ProteoProvider } from './contexts/ProteoProvider';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProteoProvider } from './contexts/ProteoContext';
 import { Navigation } from './components';
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
   return (
-    <NativeBaseProvider>
-      <LoginProvider>
-        <ProteoProvider>
-          <Navigation />
-        </ProteoProvider>
-      </LoginProvider>
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <NativeBaseProvider>
+        <AuthProvider>
+          <ProteoProvider>
+            <Navigation />
+          </ProteoProvider>
+        </AuthProvider>
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 };
 

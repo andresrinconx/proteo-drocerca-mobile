@@ -1,4 +1,4 @@
-export type NavigationParamsList = {
+export type RootStackParams = {
   Login: undefined
   Home: undefined
 }

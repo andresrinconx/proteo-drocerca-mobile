@@ -1,5 +1,5 @@
 import messaging from '@react-native-firebase/messaging';
-import { getDataStorage, setDataStorage } from './asyncStorage';
+import { getDataStorage, setDataStorage } from '../utils/asyncStorage';
 
 export const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission();
@@ -12,7 +12,7 @@ export const requestUserPermission = async () => {
   }
 };
 
-export const getFirebaseCloudMessagingToken = async () => {
+export const getFCMToken = async () => {
   const fcmToken = await getDataStorage('fcmToken');
   console.log(fcmToken);
 
@@ -33,7 +33,7 @@ export const getFirebaseCloudMessagingToken = async () => {
 };
 
 export const notificationListener = () => {
-  messaging().onNotificationOpenedApp(remoteMessage => {
+  messaging().onNotificationOpenedApp(remoteMessage => { // background state
     console.log(
       'Notification caused app to open from background state:',
       remoteMessage.notification,
@@ -42,7 +42,7 @@ export const notificationListener = () => {
 
   messaging()
   .getInitialNotification()
-  .then(remoteMessage => {
+  .then(remoteMessage => { // quit state
     if (remoteMessage) {
       console.log(
         'Notification caused app to open from quit state:',

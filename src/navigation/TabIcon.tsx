@@ -1,24 +1,22 @@
 import { View, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { IconData } from '../../utils/types';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const iconData: { [key: string]: IconData } = {
   profile: {
     translation: 'Perfil',
-    icon: require('../../assets/profile.png'),
+    icon: require('../assets/profile.png'),
   },
   permissions: {
     translation: 'Permisos',
-    icon: require('../../assets/profile.png'),
+    icon: require('../assets/profile.png'),
   },
   solicitudes: {
     translation: 'Solicitudes',
-    icon: require('../../assets/profile.png'),
+    icon: require('../assets/profile.png'),
   },
   nómina: {
     translation: 'Nómina',
-    icon: require('../../assets/profile.png'),
+    icon: require('../assets/profile.png'),
   }
 };
 

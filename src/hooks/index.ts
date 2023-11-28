@@ -1,9 +1,11 @@
-import useNavigation from './useNavigation';
-import useLogin from './useLogin';
-import useProteo from './useProteo';
+import { useAuth } from './useAuth';
+import { useProteo } from './useProteo';
+import { useNavigation } from './useNavigation';
+import { useForm } from './useForm';
 
 export {
   useNavigation,
-  useLogin,
+  useAuth,
   useProteo,
+  useForm,
 };
