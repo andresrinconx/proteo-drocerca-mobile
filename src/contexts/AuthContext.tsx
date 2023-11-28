@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { getDataStorage, removeDataStorage, setDataStorage } from '../utils/asyncStorage';
-import { Auth } from '../interfaces/auth';
+import { Auth } from '../ts/auth';
 import { fetchLogOut, fetchValidate, setBaseUrl } from '../utils/api';
 import { useNavigation } from '../hooks';
 

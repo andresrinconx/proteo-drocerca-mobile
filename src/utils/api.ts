@@ -1,7 +1,7 @@
 import { LOCAL_API_URL_MERIDA, LOCAL_API_URL_CENTRO, LOCAL_API_URL_ORIENTE } from '@env';
 import axios from 'axios';
 import { getDataStorage } from './asyncStorage';
-import { Login } from '../interfaces/api';
+import { Login } from '../ts/api';
 
 let apiBaseUrl: string;
 

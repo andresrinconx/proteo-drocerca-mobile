@@ -5,11 +5,7 @@ import { blue } from '../utils/theme';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { TabIcon } from '../components';
 
-const TabNavigator = ({
-  state,
-  descriptors,
-  navigation
-}: BottomTabBarProps) => {
+const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const [scaleValue] = useState(new Animated.Value(1));
   
   // Animation
@@ -89,7 +85,11 @@ const TabNavigator = ({
               style={{ flex: 1 }}
               key={route.name}
             >
-              <TabIcon route={route.name} isFocused={isFocused} isLast={isLast} />
+              <TabIcon 
+                route={route.name} 
+                isFocused={isFocused} 
+                isLast={isLast} 
+              />
             </Pressable>
           );
         })}
