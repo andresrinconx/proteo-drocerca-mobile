@@ -10,6 +10,7 @@ module.exports = {
         'light-blue': '#E4F0F3',
         gray: '#AEADB3',
         'light-gray': '#EDEDED',
+        typography: '#666666',
       }
     },
   },

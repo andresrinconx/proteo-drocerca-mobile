@@ -9,6 +9,7 @@ import ProfileSkeleton from './profile/ProfileSkeleton';
 import ProfileField from './profile/ProfileField';
 import Header from './shared/Header';
 import Calendar from './birthdays/Calendar';
+import NextBirthdays from './birthdays/NextBirthdays';
 
 export {
   Navigation,
@@ -21,5 +22,6 @@ export {
   ProfileSkeleton,
   ProfileField,
   Header,
-  Calendar
+  Calendar,
+  NextBirthdays,
 };

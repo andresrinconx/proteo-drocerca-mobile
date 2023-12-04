@@ -10,7 +10,12 @@ export interface CalendarDay {
   birthdays: (string | null)[];
 }
 
-export interface MonthBirthdays {
+export interface MonthBirthday {
   day: string;
+  name: string;
+}
+
+export interface NextBirthday {
+  difference: number;
   name: string;
 }

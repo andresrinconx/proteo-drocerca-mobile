@@ -28,7 +28,7 @@ const Container = () => {
   }, []);
 
   return (
-    <View className='bg-background px-10 pt-10'
+    <View className='px-10 pt-10 bg-background'
       style={{ 
         ...shadow, 
         flex: 1, 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getDataStorage } from './asyncStorage';
 import { Login } from '../ts/user';
 import { Profile } from '../ts/user';
-import { MonthBirthdays } from '../ts/calendar';
+import { MonthBirthday, NextBirthday } from '../ts/birthdays';
 
 let apiBaseUrl: string;
 
@@ -33,6 +33,7 @@ const profileEndpoint = () => `${apiBaseUrl}/user/profile`;
 
 // Birthdays
 const monthBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/month`;
+const nextBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/next`;
 
 // ***********************************************
 // API CALL
@@ -76,5 +77,8 @@ export const fetchProfile = () => {
 
 // Birthdays
 export const fetchMonthBirthdays = () => {
-  return apiCall<MonthBirthdays[]>(monthBirthdaysEndpoint(), 'GET');
+  return apiCall<MonthBirthday[]>(monthBirthdaysEndpoint(), 'GET');
+};
+export const fetchNextBirthdays = () => {
+  return apiCall<NextBirthday[]>(nextBirthdaysEndpoint(), 'GET');
 };

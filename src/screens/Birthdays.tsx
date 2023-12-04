@@ -1,19 +1,34 @@
 import { View, StatusBar } from 'react-native';
 import { blue } from '../utils/theme';
-import { Calendar, Header } from '../components';
+import { NextBirthdays, Calendar, Header, Loader } from '../components';
+import { useBirthdays } from '../hooks';
 
 const Birthdays = () => {
+  const { dayInText, monthInText, calendarDays, nextBirthdays, loading } = useBirthdays();
+
   return (
     <View className='flex-1 bg-background'>
       <StatusBar backgroundColor={blue} barStyle='light-content' />
 
       <Header title='Cumpleaños' icon={require('../assets/profile.png')} />
 
-      {/* calendar */}
-      <Calendar />
+      {loading ? (
+        <View className='mt-10'>
+          <Loader />
+        </View>
+      ) : (
+        <>
+          <Calendar 
+            dayInText={dayInText} 
+            monthInText={monthInText} 
+            calendarDays={calendarDays}        
+          />
+          <NextBirthdays
+            nextBirthdays={nextBirthdays}
+          />
+        </>
+      )}
 
-      {/* birthday list */}
-      
     </View>
   );
 };

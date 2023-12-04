@@ -3,11 +3,15 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Popover } from 'native-base';
 import { blue, gray } from '../../utils/theme';
 import { days } from '../../utils/constants';
-import { useBirthdays } from '../../hooks';
+import { CalendarDay } from '../../ts/birthdays';
 
-const Calendar = () => {
-  const { dayInText, monthInText, calendar } = useBirthdays();
+interface Calendar {
+  dayInText: string;
+  monthInText: string;
+  calendarDays: CalendarDay[] | null;
+}
 
+const Calendar = ({ dayInText, monthInText, calendarDays }: Calendar) => {
   return (
     <View className='pt-8 px-2.5'>
 
@@ -35,7 +39,7 @@ const Calendar = () => {
       {/* grid */}
       <View className='border-[0.5px] mt-0.5 border-gray'>
         <FlatList
-          data={calendar}
+          data={calendarDays}
           numColumns={7}
           showsVerticalScrollIndicator={false}
           renderItem={({ item: { isCurrentMonth, day, birthdays }, index }) => {
@@ -99,15 +103,13 @@ const Calendar = () => {
 };
 
 const CircleDay = ({ day }: { day: number }) => {
-  const { currentDay } = useBirthdays();
-
   return (
     <Text className='w-4 h-4 text-center rounded-full' 
       style={{ 
         fontFamily: 'Poppins-Regular', 
         fontSize: wp(2.5),
-        backgroundColor: day === currentDay ? blue : 'white',
-        color: day === currentDay ? 'white' : gray
+        backgroundColor: day === new Date().getDate() ? blue : 'white',
+        color: day === new Date().getDate() ? 'white' : gray
       }}
     >{day}</Text>
   );

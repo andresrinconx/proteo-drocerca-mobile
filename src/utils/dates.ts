@@ -1,4 +1,4 @@
-import { MonthDays } from '../ts/calendar';
+import { MonthDays } from '../ts/birthdays';
 import { days, months } from './constants';
 
 export const getDayInText = (date: Date): string => days[date.getDay()];
@@ -35,4 +35,14 @@ export const getMonthDays = (date: Date): MonthDays => {
   const postDays = 7 - ((prevDays + days) % 7);
   
   return { prevDays, days, postDays };
+};
+
+export const calcDifferenceDays = (difference: number) => {
+  const date = new Date();
+  date.setDate(date.getDate() + difference);
+
+  return {
+    dayOfWeek: getDayInText(date),
+    day: date.getDate(),
+  };
 };
