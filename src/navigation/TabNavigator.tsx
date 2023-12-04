@@ -48,7 +48,7 @@ const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => 
       </View>
 
       {/* items */}
-      <View className='flex flex-row items-center justify-between h-full pl-36' style={{ width: wp(100) }}>
+      <View className='flex-row items-center justify-between h-full pl-36' style={{ width: wp(100) }}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
 

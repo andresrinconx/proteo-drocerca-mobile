@@ -6,6 +6,7 @@ import { ChevronDownIcon, EyeIcon, EyeSlashIcon } from 'react-native-heroicons/m
 import { fetchAuth, setBaseUrl } from '../utils/api';
 import { setDataStorage } from '../utils/asyncStorage';
 import { sedes } from '../utils/constants';
+import { shadow } from '../utils/theme';
 import { getFCMToken } from '../helpers/pushNotification';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useAuth, useForm } from '../hooks';
@@ -68,7 +69,7 @@ const Login = ({ navigation }: Props) => {
       <StatusBar backgroundColor={background} barStyle='dark-content' />
       
       {/* logo */}
-      <View className='flex items-center pt-10'>
+      <View className='items-center pt-10'>
         <Image style={{ width: wp(70), height: wp(20) }} resizeMode='contain'
           source={require('../assets/logo.png')}
         />
@@ -78,7 +79,7 @@ const Login = ({ navigation }: Props) => {
       <View className='px-16 pt-20 pb-20 space-y-8'>
 
         {/* user */}
-        <View className='flex flex-col justify-center h-12 rounded-full bg-light-gray'>
+        <View className='flex-col justify-center h-12 rounded-full bg-light-gray'>
           <TextInput className='pl-5 rounded-full font-semibold text-gray' 
             style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}
             placeholder='Usuario'
@@ -90,7 +91,7 @@ const Login = ({ navigation }: Props) => {
         </View>
 
         {/* password */}
-        <View className='flex flex-col justify-center h-12 rounded-full bg-light-gray'>
+        <View className='flex-col justify-center h-12 rounded-full bg-light-gray'>
           <TextInput className='pl-5 rounded-full font-semibold text-gray'
             style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}
             secureTextEntry={!showPassword}
@@ -113,12 +114,12 @@ const Login = ({ navigation }: Props) => {
         </View>
 
         {/* sede */}
-        <View className='flex flex-col justify-center h-12 rounded-full bg-light-gray'>
+        <View className='flex-col justify-center h-12 rounded-full bg-light-gray'>
           <Menu style={{ backgroundColor: lightGray, borderRadius: 20, marginTop: 5 }} 
             shadow={1} 
             w={wp(67)} 
             trigger={triggerProps => 
-              <Pressable className='flex flex-col justify-center' 
+              <Pressable className='flex-col justify-center' 
                 style={{ height: wp(10), width: wp(66) }} 
                 {...triggerProps}
               >
@@ -126,7 +127,7 @@ const Login = ({ navigation }: Props) => {
                   {sede ? sede : 'Sede'}
                 </Text>
 
-                <View className='flex flex-row justify-center items-center absolute' style={{ right: wp(2), top: wp(2) }}>
+                <View className='flex-row justify-center items-center absolute' style={{ right: wp(2), top: wp(2) }}>
                   <ChevronDownIcon size={wp(6)} color={blue} strokeWidth={2} />
                 </View>
               </Pressable>
@@ -155,19 +156,15 @@ const Login = ({ navigation }: Props) => {
       </View>
       
       {/* baloon container */}
-      <View className='flex flex-row items-center justify-center bg-background'>
-        <View className='flex flex-row justify-center items-center rounded-t-full bg-blue' style={{ width: wp(160), height: wp(75) }}>
-          <TouchableOpacity className='flex flex-row items-center justify-center rounded-full border-[8px] border-background bg-blue' 
+      <View className='flex-row items-center justify-center bg-background'>
+        <View className='flex-row justify-center items-center rounded-t-full bg-blue' style={{ width: wp(160), height: wp(75) }}>
+          <TouchableOpacity className='flex-row items-center justify-center rounded-full border-[8px] border-background bg-blue' 
             onPress={logIn}
             style={{
+              ...shadow,
               width: wp(25), 
               height: wp(25), 
               top: wp(-37),
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.8,
-              shadowRadius: 16.00,
-              elevation: 24,
             }}
           >
             {loadingAuth ? (

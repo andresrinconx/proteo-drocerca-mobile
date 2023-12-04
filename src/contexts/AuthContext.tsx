@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { getDataStorage, removeDataStorage, setDataStorage } from '../utils/asyncStorage';
-import { Auth } from '../ts/auth';
+import { Auth } from '../ts/user';
 import { fetchLogOut, fetchValidate, setBaseUrl } from '../utils/api';
 import { useNavigation } from '../hooks';
 
@@ -16,9 +16,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [auth, setAuth] = useState<Auth>({
     status: 'checking',
     isBoss: false,
+    isHRBoss: false,
   });
   const navigation = useNavigation();
-  
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -27,20 +28,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const checkAuth = async() => {
     const jwt = await getDataStorage('jwt');
     
-    if (!jwt) return setAuth({...auth, status: 'notAuthenticated'});
+    if (!jwt) return setAuth({ ...auth, status: 'notAuthenticated' });
 
     try {
       const sede = await getDataStorage('sede');
       setBaseUrl(sede as string);
 
-      const res = await fetchValidate();
-      await setDataStorage('jwt', res.jwt);
+      const { isBoss, isHRBoss, jwt } = await fetchValidate();
+      await setDataStorage('jwt', jwt);
       setAuth({
         ...auth, 
         status: 'authenticated', 
-        isBoss: res.isBoss,
+        isHRBoss,
+        isBoss,
       });
     } catch (error) {
+      if (jwt) return setAuth({ ...auth, status: 'authenticated' });
       setAuth({...auth, status: 'notAuthenticated'});
     }
   };

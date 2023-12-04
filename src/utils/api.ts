@@ -1,7 +1,9 @@
 import { LOCAL_API_URL_MERIDA, LOCAL_API_URL_CENTRO, LOCAL_API_URL_ORIENTE } from '@env';
 import axios from 'axios';
 import { getDataStorage } from './asyncStorage';
-import { Login } from '../ts/api';
+import { Login } from '../ts/user';
+import { Profile } from '../ts/user';
+import { MonthBirthdays } from '../ts/calendar';
 
 let apiBaseUrl: string;
 
@@ -23,10 +25,14 @@ export const setBaseUrl = async (sede: string) => {
 // ENDPOINTS
 // ***********************************************
 
-// User session
-const authEndpoint = () => `${apiBaseUrl}/api/user/auth`;
-const validateEndpoint = () => `${apiBaseUrl}/api/user/validate`;
-const logOutEndpoint = () => `${apiBaseUrl}/api/user/logout`;
+// User
+const authEndpoint = () => `${apiBaseUrl}/user/auth`;
+const validateEndpoint = () => `${apiBaseUrl}/user/validate`;
+const logOutEndpoint = () => `${apiBaseUrl}/user/logout`;
+const profileEndpoint = () => `${apiBaseUrl}/user/profile`;
+
+// Birthdays
+const monthBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/month`;
 
 // ***********************************************
 // API CALL
@@ -54,7 +60,7 @@ const apiCall = async <T>(endpoint: string, method: Uppercase<string>, data?: un
 // FUNCTIONS
 // ***********************************************
 
-// User session
+// User
 export const fetchAuth = (data: { user: string, password: string, fcmToken: string }) => {
   return apiCall<Login>(authEndpoint(), 'POST', data);
 };
@@ -63,4 +69,12 @@ export const fetchValidate = () => {
 };
 export const fetchLogOut = () => {
   return apiCall(logOutEndpoint(), 'POST');
+};
+export const fetchProfile = () => {
+  return apiCall<Profile>(profileEndpoint(), 'GET');
+};
+
+// Birthdays
+export const fetchMonthBirthdays = () => {
+  return apiCall<MonthBirthdays[]>(monthBirthdaysEndpoint(), 'GET');
 };

@@ -1,25 +1,22 @@
 import { View, StatusBar, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { background } from '../utils/theme';
+import { blue } from '../utils/theme';
+import { Container } from '../components';
 // import { LogOut } from '../components';
 
 const Profile = () => {
   return (
     <View className='flex-1 bg-background'>
-      <StatusBar backgroundColor={background} barStyle='dark-content' />
+      <StatusBar backgroundColor={blue} barStyle='light-content' />
 
       {/* <LogOut /> */}
-      {/* logo */}
-      <View className='flex flex-col justify-center items-center py-4'>
-        <Image style={{ width: wp(70), height: wp(20) }} resizeMode='contain'
+      <View className='flex-col justify-center items-center py-4'>
+        <Image style={{ width: wp(60), height: wp(20) }} resizeMode='contain'
           source={require('../assets/drocerca.png')}
         />
       </View>
 
-      {/* content */}
-      <View>
-        
-      </View>
+      <Container />
       
     </View>
   );
