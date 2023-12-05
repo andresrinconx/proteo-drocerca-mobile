@@ -13,10 +13,10 @@ interface Calendar {
 
 const Calendar = ({ dayInText, monthInText, calendarDays }: Calendar) => {
   return (
-    <View className='pt-8 px-2.5'>
+    <View className='px-2.5'>
 
       {/* current month */}
-      <Text className='text-center text-gray' style={{ fontFamily: 'Poppins-Medium', fontSize: wp(5) }}>
+      <Text className='text-center text-typography' style={{ fontFamily: 'Poppins-Medium', fontSize: wp(5) }}>
         {monthInText}
       </Text>
 
@@ -56,7 +56,7 @@ const Calendar = ({ dayInText, monthInText, calendarDays }: Calendar) => {
                   birthdays.length > 0 ? (
                     <Popover trigger={triggerProps => {
                      return <Text {...triggerProps}>
-                              <View className='flex-col p-0.5 border-[0.5px] border-gray'
+                              <View className='flex-col p-0.5 border-[0.5px] border-gray bg-background'
                                 style={{ 
                                   width: wp(13.5), 
                                   height: wp(15), 

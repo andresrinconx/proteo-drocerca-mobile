@@ -6,10 +6,9 @@ import { calcDifferenceDays } from '../../utils/dates';
 
 const NextBirthdays = ({ nextBirthdays }: { nextBirthdays: NextBirthday[] | null }) => {
   return (
-    <View className='mt-5 pt-7 px-10 bg-light-gray'
+    <View className='h-full mt-5 pt-7 px-10 bg-light-gray'
       style={{ 
         ...shadow, 
-        flex: 1, 
         borderTopLeftRadius: wp(16), 
         borderTopRightRadius: wp(16) 
       }}

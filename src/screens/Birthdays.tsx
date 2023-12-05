@@ -4,7 +4,7 @@ import { NextBirthdays, Calendar, Header, Loader } from '../components';
 import { useBirthdays } from '../hooks';
 
 const Birthdays = () => {
-  const { dayInText, monthInText, calendarDays, nextBirthdays, loading } = useBirthdays();
+  const { dayInText, monthInText, calendarDays, nextBirthdays, isLoading } = useBirthdays();
 
   return (
     <View className='flex-1 bg-background'>
@@ -12,12 +12,12 @@ const Birthdays = () => {
 
       <Header title='Cumpleaños' icon={require('../assets/profile.png')} />
 
-      {loading ? (
+      {isLoading ? (
         <View className='mt-10'>
           <Loader />
         </View>
       ) : (
-        <>
+        <View className='pt-8'>
           <Calendar 
             dayInText={dayInText} 
             monthInText={monthInText} 
@@ -26,7 +26,7 @@ const Birthdays = () => {
           <NextBirthdays
             nextBirthdays={nextBirthdays}
           />
-        </>
+        </View>
       )}
 
     </View>

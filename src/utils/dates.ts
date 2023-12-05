@@ -2,6 +2,7 @@ import { MonthDays } from '../ts/birthdays';
 import { days, months } from './constants';
 
 export const getDayInText = (date: Date): string => days[date.getDay()];
+
 export const getMonthInText = (date: Date): string => months[date.getMonth()];
 
 export const getMonthDays = (date: Date): MonthDays => {
@@ -45,4 +46,15 @@ export const calcDifferenceDays = (difference: number) => {
     dayOfWeek: getDayInText(date),
     day: date.getDate(),
   };
+};
+
+/**
+ * Get date yyyy-mm-dd
+ */
+export const formatDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  
+  return `${year}-${String(month).length === 1 ? `0${month}` : `${month}`}-${String(day).length === 1 ? `0${day}` : `${day}`}`;
 };

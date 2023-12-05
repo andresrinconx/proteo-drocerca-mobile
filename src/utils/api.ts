@@ -4,6 +4,7 @@ import { getDataStorage } from './asyncStorage';
 import { Login } from '../ts/user';
 import { Profile } from '../ts/user';
 import { MonthBirthday, NextBirthday } from '../ts/birthdays';
+import { Payroll } from '../ts/payroll';
 
 let apiBaseUrl: string;
 
@@ -34,6 +35,9 @@ const profileEndpoint = () => `${apiBaseUrl}/user/profile`;
 // Birthdays
 const monthBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/month`;
 const nextBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/next`;
+
+// Payroll
+const payrollEndpoint = () => `${apiBaseUrl}/payroll`;
 
 // ***********************************************
 // API CALL
@@ -81,4 +85,9 @@ export const fetchMonthBirthdays = () => {
 };
 export const fetchNextBirthdays = () => {
   return apiCall<NextBirthday[]>(nextBirthdaysEndpoint(), 'GET');
+};
+
+// Payroll
+export const fetchPayroll = (data: { date: string }) => {
+  return apiCall<Payroll[]>(payrollEndpoint(), 'POST', data);
 };

@@ -4,7 +4,7 @@ import { CalendarDay, NextBirthday } from '../ts/birthdays';
 import { fetchMonthBirthdays, fetchNextBirthdays } from '../utils/api';
 
 export const useBirthdays = () => {
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [calendarDays, setCalendarDays] = useState<CalendarDay[] | null>(null);
   const [nextBirthdays, setNextBirthdays] = useState<NextBirthday[] | null>(null);
 
@@ -55,7 +55,7 @@ export const useBirthdays = () => {
       setCalendarDays(calendarDays);
       setNextBirthdays(resps[1]);
 
-      setLoading(false);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +66,7 @@ export const useBirthdays = () => {
   }, []);
 
   return {
-    loading,
+    isLoading,
     dayInText,
     monthInText,
     currentDay,

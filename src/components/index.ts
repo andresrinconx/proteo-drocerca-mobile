@@ -10,6 +10,9 @@ import ProfileField from './profile/ProfileField';
 import Header from './shared/Header';
 import Calendar from './birthdays/Calendar';
 import NextBirthdays from './birthdays/NextBirthdays';
+import Table from './shared/Table';
+import Modal from './shared/Modal';
+import PayrollDetails from './payroll/PayrollDetails';
 
 export {
   Navigation,
@@ -24,4 +27,7 @@ export {
   Header,
   Calendar,
   NextBirthdays,
+  Table,
+  Modal,
+  PayrollDetails,
 };
