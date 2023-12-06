@@ -10,23 +10,23 @@ export interface IconData {
 const iconsData: { [key: string]: IconData } = {
   profile: {
     translation: 'Perfil',
-    icon: require('../assets/profile.png'),
+    icon: require('../../assets/profile.png'),
   },
   permissions: {
     translation: 'Permisos',
-    icon: require('../assets/profile.png'),
+    icon: require('../../assets/profile.png'),
   },
   payroll: {
     translation: 'Nómina',
-    icon: require('../assets/profile.png'),
+    icon: require('../../assets/profile.png'),
   },
   birthdays: {
     translation: 'Cumples',
-    icon: require('../assets/profile.png'),
+    icon: require('../../assets/profile.png'),
   }
 };
 
-const TabIcon = ({ route, isFocused, isLast }: { route: string; isFocused: boolean, isLast: boolean }) => {
+const BottomTabIcon = ({ route, isFocused, isLast }: { route: string; isFocused: boolean, isLast: boolean }) => {
   return (
     <View className='flex-col items-center justify-center'
       style={{ borderRightWidth: isLast ? 0 : .5, borderRightColor: 'white' }}
@@ -43,4 +43,4 @@ const TabIcon = ({ route, isFocused, isLast }: { route: string; isFocused: boole
   );
 };
 
-export default TabIcon;
+export default BottomTabIcon;

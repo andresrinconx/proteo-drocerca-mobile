@@ -26,9 +26,9 @@ const PayrollDetails = ({ item }: { item: Payroll}) => {
       <Table
         columns={[
           { name: 'concept', width: 36 },
-          { name: 'assignment', width: assignmentWidth, isCurrency: true },
-          { name: 'deduction', width: deductionWidth, isCurrency: true },
-          { name: 'paid', width: paidWidth, isCurrency: true },
+          { name: 'assignment', width: assignmentWidth, type: 'currency' },
+          { name: 'deduction', width: deductionWidth, type: 'currency' },
+          { name: 'paid', width: paidWidth, type: 'currency' },
         ]}
         data={item?.items}
         currency={currency}

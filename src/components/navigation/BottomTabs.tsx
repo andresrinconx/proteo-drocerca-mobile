@@ -1,15 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TabNavigator } from '../components';
-import { Profile, Permissions, Payroll, Birthdays } from '../screens';
+import { BottomTabNavigator } from '..';
+import { Profile, Permissions, Payroll, Birthdays } from '../../screens';
 
 const Tab = createBottomTabNavigator();
 
-const HomeTabs = () => {
+const BottomTabs = () => {
   return (
     <Tab.Navigator
       initialRouteName='Profile'
       screenOptions={{ headerShown: false }}
-      tabBar={props => <TabNavigator {...props} />}
+      tabBar={props => <BottomTabNavigator {...props} />}
     >
       <Tab.Screen 
         name='Profile'
@@ -31,4 +31,4 @@ const HomeTabs = () => {
   );
 };
 
-export default HomeTabs;
+export default BottomTabs;

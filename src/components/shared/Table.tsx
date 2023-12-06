@@ -1,34 +1,13 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { background, lightGray } from '../../utils/theme';
+import { background, gray, lightGray } from '../../utils/theme';
 import { tableTranslations } from '../../utils/constants';
 import { getCurrency } from '../../utils/strings';
-import Modal from './Modal';
+import { TableProps } from '../../ts/table';
+import { Modal } from '..';
 
-type Column<T> = {
-  name: Extract<keyof T, string>;
-  width: number;
-  isCurrency?: boolean;
-};
-
-type TableProps<T> = {
-  columns: Column<T>[];
-  data: T[];
-  currency?: string;
-  showHeader?: boolean;
-  showSearch: true;
-  renderItem: (item: T) => React.JSX.Element;
-} | {
-  columns: Column<T>[];
-  data: T[];
-  currency?: string;
-  showHeader?: boolean;
-  showSearch?: false;
-  renderItem?: never;
-};
-
-const Table = <T,>({ columns, data, currency, showHeader = true, showSearch, renderItem }: TableProps<T>) => {
+const Table = <T,>({ columns, data, noRecordsMessage, currency, showHeader = true, showSearch, renderItem }: TableProps<T>) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchedElement, setSearchedElement] = useState<T | null>(null);
 
@@ -65,7 +44,7 @@ const Table = <T,>({ columns, data, currency, showHeader = true, showSearch, ren
           }}
         >
           <Text style={{ fontFamily: 'Poppins-Regular', fontSize: wp(3) }}>
-            No hay registros para este mes
+            {noRecordsMessage}
           </Text>
         </View>
       ) : (
@@ -85,17 +64,39 @@ const Table = <T,>({ columns, data, currency, showHeader = true, showSearch, ren
                 borderBottomLeftRadius: isLast ? wp(3) : 0,
               }}
             >
-              {columns.map(({ name, width, isCurrency }, index) => {
+              {columns.map(({ width, name, type, options }, index) => {
+                const itemName = item[name] as string;
+
                 return (
-                  <Text key={index} className='mx-1 text-center'
-                    style={{ 
-                      width: wp(width),
-                      fontFamily: 'Poppins-Regular',
-                      fontSize: wp(3),
-                    }}
-                  >
-                    {isCurrency ? getCurrency(currency as string, item[name] as string) : item[name] as string}
-                  </Text>
+                  <Fragment key={index}>
+                    {type === 'currency'
+                      ? (
+                        <Text className='mx-1 text-center' 
+                          style={{ width: wp(width), fontFamily: 'Poppins-Regular', fontSize: wp(3) }}
+                        >
+                          {getCurrency(currency as string, itemName)}
+                        </Text>
+                      ) 
+                    : type === 'status'
+                      ? (
+                        <Text className='mx-1 rounded-xl text-center' 
+                          style={{ 
+                            backgroundColor: options?.find(item => item.value === itemName)?.bgColor || gray, 
+                            color: options?.find(item => item.value === itemName)?.color || 'white',
+                            width: wp(width), 
+                            fontFamily: 'Poppins-Regular', 
+                            fontSize: wp(3) 
+                          }}
+                        >
+                          {itemName}
+                        </Text>
+                      )
+                    : (
+                      <Text className='mx-1 text-center' style={{ width: wp(width), fontFamily: 'Poppins-Regular', fontSize: wp(3) }}>
+                        {itemName}
+                      </Text>
+                    )}
+                  </Fragment>
                 );
               })}
 

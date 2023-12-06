@@ -1,9 +1,9 @@
-import Navigation from '../navigation/Navigation';
+import Navigation from './navigation/Navigation';
 import Divider from './shared/Divider';
 import Loader from './shared/Loader';
 import LogOut from './auth/LogOut';
-import TabNavigator from '../navigation/TabNavigator';
-import TabIcon from '../navigation/TabIcon';
+import BottomTabNavigator from './navigation/BottomTabNavigator';
+import BottomTabIcon from './navigation/BottomTabIcon';
 import Container from './profile/Container';
 import ProfileSkeleton from './profile/ProfileSkeleton';
 import ProfileField from './profile/ProfileField';
@@ -13,14 +13,18 @@ import NextBirthdays from './birthdays/NextBirthdays';
 import Table from './shared/Table';
 import Modal from './shared/Modal';
 import PayrollDetails from './payroll/PayrollDetails';
+import BottomTabs from './navigation/BottomTabs';
+import PermissionsTobTabs from './navigation/PermissionsTobTabs';
+import PermissionsTobTabNavigator from './navigation/PermissionsTobTabNavigator';
+import TableSkeleton from './shared/TableSkeleton';
 
 export {
   Navigation,
   Divider,
   Loader,
   LogOut,
-  TabNavigator,
-  TabIcon,
+  BottomTabNavigator,
+  BottomTabIcon,
   Container,
   ProfileSkeleton,
   ProfileField,
@@ -30,4 +34,8 @@ export {
   Table,
   Modal,
   PayrollDetails,
+  BottomTabs,
+  PermissionsTobTabs,
+  PermissionsTobTabNavigator,
+  TableSkeleton,
 };

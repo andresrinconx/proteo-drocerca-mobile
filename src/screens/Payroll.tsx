@@ -61,9 +61,10 @@ const Payroll = () => {
                 columns={[
                   { name: 'date', width: 28 },
                   { name: 'number', width: 17 },
-                  { name: 'paid', width: 20, isCurrency: true },
+                  { name: 'paid', width: 20, type: 'currency' },
                 ]}
                 data={payroll as PayrollInterface[]}
+                noRecordsMessage='No hay registros para este mes'
                 currency='Bs.'
                 showSearch={true}
                 renderItem={(item) => <PayrollDetails item={item} />}

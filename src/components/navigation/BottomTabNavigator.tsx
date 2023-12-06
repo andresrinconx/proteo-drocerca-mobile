@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { View, Pressable, Image, Animated, Easing } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { blue } from '../utils/theme';
+import { blue } from '../../utils/theme';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { TabIcon } from '../components';
+import { BottomTabIcon } from '..';
 
-const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+const BottomTabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const [scaleValue] = useState(new Animated.Value(1));
   
   // Animation
@@ -42,7 +42,7 @@ const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => 
       <View className='absolute -bottom-7'>
         <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
           <Image style={{ width: wp(38), height: wp(38) }} resizeMode='contain'
-            source={require('../assets/proteo-transparent.png')}
+            source={require('../../assets/proteo-transparent.png')}
           />
         </Animated.View>
       </View>
@@ -76,7 +76,7 @@ const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => 
 
           return (
             <Pressable
-              accessibilityRole="button"
+              accessibilityRole='button'
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
@@ -85,7 +85,7 @@ const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => 
               style={{ flex: 1 }}
               key={route.name}
             >
-              <TabIcon 
+              <BottomTabIcon 
                 route={route.name} 
                 isFocused={isFocused} 
                 isLast={isLast} 
@@ -98,4 +98,4 @@ const TabNavigator = ({ state, descriptors, navigation }: BottomTabBarProps) => 
   );
 };
 
-export default TabNavigator;
+export default BottomTabNavigator;

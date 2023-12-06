@@ -5,7 +5,7 @@ export const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vier
 export const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 export const tableTranslations = {
-  date: 'Fecha Pago',
+  date: 'Fecha',
   number: 'Nómina',
   paid: 'Pagado',
   concept: 'Concepto',
