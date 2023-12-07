@@ -1,15 +1,21 @@
 export interface Permission {
-  lugar:     string;
   tiposol:   string;
-  tipomot:   string;
   finicial:  string;
-  ffinal:    string;
   hsalida:   string;
+  ffinal:    string;
   hingreso:  string;
   totald:    string;
-  mot:       string;
+  tipomot:   string;
   hcita:     string;
+  lugar:     string;
+  mot:       string;
   fsolicita: string;
+}
+
+export interface PermissionForm extends Permission {
+  isPickerOpen: boolean;
+  pickerMode: 'date' | 'time';
+  currentPickerValue: string;
 }
 
 export interface UserPermission {

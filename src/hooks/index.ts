@@ -3,6 +3,8 @@ import { useProteo } from './useProteo';
 import { useNavigation } from './useNavigation';
 import { useForm } from './useForm';
 import { useBirthdays } from './useBirthdays';
+import { usePermission } from './usePermission';
+import { useDimensions } from './useDimentions';
 
 export {
   useNavigation,
@@ -10,4 +12,6 @@ export {
   useProteo,
   useForm,
   useBirthdays,
+  usePermission,
+  useDimensions
 };

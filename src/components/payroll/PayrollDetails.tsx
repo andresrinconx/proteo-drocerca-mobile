@@ -23,37 +23,38 @@ const PayrollDetails = ({ item }: { item: Payroll}) => {
       </View>
       
       {/* details */}
-      <Table
-        columns={[
-          { name: 'concept', width: 36 },
-          { name: 'assignment', width: assignmentWidth, type: 'currency' },
-          { name: 'deduction', width: deductionWidth, type: 'currency' },
-          { name: 'paid', width: paidWidth, type: 'currency' },
-        ]}
-        data={item?.items}
-        currency={currency}
-      />
+      <View className='items-center'>
+        <Table
+          columns={[
+            { name: 'concept', width: 36 },
+            { name: 'assignment', width: assignmentWidth, type: 'currency' },
+            { name: 'deduction', width: deductionWidth, type: 'currency' },
+            { name: 'paid', width: paidWidth, type: 'currency' },
+          ]}
+          data={item?.items}
+          currency={currency}
+        />
 
-      {/* sum */}
-      <View className='flex-row'>
-        <View className='mx-2.5' style={{ width: wp(conceptWidth) }} />
-        <View className='flex-1 flex-row items-center border-t border-t-blue'
-          style={{ 
-            height: wp(10),
-            backgroundColor: lightGray,
-            borderBottomRightRadius: wp(3),
-            borderBottomLeftRadius: wp(3),
-          }}
-        >
-          <Text className='mx-1 text-center' style={{ width: wp(assignmentWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
-            {getCurrency(currency, item?.assignment)}
-          </Text>
-          <Text className='mx-1 text-center' style={{ width: wp(deductionWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
-            {getCurrency(currency, item?.deduction)}
-          </Text>
-          <Text className='mx-1 text-center' style={{ width: wp(paidWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
-            {getCurrency(currency, item?.paid)}
-          </Text>
+        <View className='flex-row'>
+          <View className='mx-2.5' style={{ width: wp(conceptWidth) }} />
+          <View className='flex-row items-center border-t border-t-blue'
+            style={{ 
+              height: wp(10),
+              backgroundColor: lightGray,
+              borderBottomRightRadius: wp(3),
+              borderBottomLeftRadius: wp(3),
+            }}
+          >
+            <Text className='mx-1 text-center' style={{ width: wp(assignmentWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
+              {getCurrency(currency, item?.assignment)}
+            </Text>
+            <Text className='mx-1 text-center' style={{ width: wp(deductionWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
+              {getCurrency(currency, item?.deduction)}
+            </Text>
+            <Text className='mx-1 text-center' style={{ width: wp(paidWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
+              {getCurrency(currency, item?.paid)}
+            </Text>
+          </View>
         </View>
       </View>
     </View>

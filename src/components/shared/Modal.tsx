@@ -11,19 +11,21 @@ type ModalProps = {
   minHeight?: number;
   maxHeight?: number;
   borderRadius?: number;
+  showCloseIcon?: boolean;
+  animation?: 'slide' | 'fade';
 }
 
-const Modal = ({ children, bgColor, width, minHeight, maxHeight, borderRadius, isModalOpen, setIsModalOpen }: ModalProps) => {
+const Modal = ({ children, bgColor, width, minHeight, maxHeight, borderRadius, isModalOpen, setIsModalOpen, showCloseIcon = true, animation = 'fade' }: ModalProps) => {
   return (
-    <ModalNativeBase isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} animationPreset='fade'>
-      <ModalNativeBase.Content className='flex-col items-center mb-0' style={{ 
+    <ModalNativeBase isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} animationPreset={animation} avoidKeyboard={true}>
+      <ModalNativeBase.Content className='justify-center mb-0' style={{ 
         backgroundColor: bgColor, 
-        width: width ? wp(width) : wp(95), 
+        width: width ? wp(width) : '100%', 
         minHeight: minHeight ? wp(minHeight) : wp(127), 
         maxHeight: maxHeight ? wp(maxHeight) : wp(127), 
         borderRadius: borderRadius ? borderRadius : 10,
       }}>
-        <ModalNativeBase.CloseButton />
+        {showCloseIcon && <ModalNativeBase.CloseButton />}
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 10 }}

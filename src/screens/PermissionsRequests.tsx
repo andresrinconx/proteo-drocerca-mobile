@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { gray, typography } from '../utils/theme';
 import { fetchPermissions } from '../utils/api';
 import { UserPermission } from '../ts/permissions';
 import { Table, TableSkeleton } from '../components';
@@ -26,7 +25,7 @@ const PermissionsRequests = () => {
   }, []);
 
   return (
-    <View className='flex-1 px-6 bg-background'>
+    <View className='flex-1 px-5 bg-background'>
       {isLoading  ? (
         <TableSkeleton />
       ) : (
@@ -34,7 +33,7 @@ const PermissionsRequests = () => {
           <Table 
             columns={[
               { name: 'date', width: 16 },
-              { name: 'place', width: 30 },
+              { name: 'place', width: 31.5 },
               { name: 'status', width: 20, 
                 type: 'status',
                 options: [

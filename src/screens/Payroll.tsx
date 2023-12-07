@@ -18,8 +18,7 @@ const Payroll = () => {
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        const res = await fetchPayroll({ date: formatDate(payrollDate) });
-        
+        const res = await fetchPayroll({ date: formatDate(payrollDate, 'DESC') });
         if (res) {
           setPayroll(res);
           setIsLoading(false);

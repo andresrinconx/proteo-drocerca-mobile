@@ -46,9 +46,9 @@ const Container = () => {
             <View className='flex-row items-center gap-x-4'>
               <View className='rounded-full bg-light-blue' style={{ width: wp(14), height: wp(14) }} />
 
-              <View className='flex-col gap-y-1'>
+              <View className='flex-col gap-y-1' style={{ width: wp(61) }}>
                 <Text className='text-blue' style={{ fontFamily: 'Poppins-Bold', fontSize: wp(6) }}
-                  numberOfLines={2}
+                  numberOfLines={3}
                 >
                   ¡Hola {profile?.name}!
                 </Text>

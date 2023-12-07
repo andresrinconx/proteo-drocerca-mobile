@@ -12,7 +12,7 @@ let apiBaseUrl: string;
 export const setBaseUrl = async (sede: string) => {
   switch (sede) {
     case 'Mérida':
-      apiBaseUrl = LOCAL_API_URL_MERIDA;
+      apiBaseUrl = 'http://10.0.2.2:4000/api';
       break;
     case 'Centro':
       apiBaseUrl = LOCAL_API_URL_CENTRO;
@@ -114,7 +114,7 @@ export const fetchUpdatePermission = (id: string, data: Permission) => {
   return apiCall(permissionEndpoint(id), 'PUT', data);
 };
 export const fetchBossPermissions = () => {
-  return apiCall<BossPermission>(bossPermissionsEndpoint(), 'GET');
+  return apiCall<BossPermission[]>(bossPermissionsEndpoint(), 'GET');
 };
 export const fetchApprovePermission = (data: { id: string }) => {
   return apiCall(approvePermissionEndpoint(), 'PUT', data);

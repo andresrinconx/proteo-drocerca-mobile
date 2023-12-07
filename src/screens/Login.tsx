@@ -119,15 +119,15 @@ const Login = ({ navigation }: Props) => {
             shadow={1} 
             w={wp(67)} 
             trigger={triggerProps => 
-              <Pressable className='flex-col justify-center' 
+              <Pressable className='flex-row items-center' 
                 style={{ height: wp(10), width: wp(66) }} 
                 {...triggerProps}
               >
-                <Text className='pl-5 font-semibold text-gray' style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}>
+                <Text className='flex-1 pl-5 text-gray' style={{ fontFamily: 'Poppins-Regular', fontSize: wp(4) }}>
                   {sede ? sede : 'Sede'}
                 </Text>
 
-                <View className='flex-row justify-center items-center absolute' style={{ right: wp(2), top: wp(2) }}>
+                <View className='right-2'>
                   <ChevronDownIcon size={wp(6)} color={blue} strokeWidth={2} />
                 </View>
               </Pressable>

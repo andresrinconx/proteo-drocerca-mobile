@@ -51,10 +51,11 @@ export const calcDifferenceDays = (difference: number) => {
 /**
  * Get date yyyy-mm-dd
  */
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date, order?: 'ASC' | 'DESC') => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
   
-  return `${year}-${String(month).length === 1 ? `0${month}` : `${month}`}-${String(day).length === 1 ? `0${day}` : `${day}`}`;
+  if (order === 'DESC') return `${year}-${String(month).length === 1 ? `0${month}` : `${month}`}-${String(day).length === 1 ? `0${day}` : `${day}`}`;
+  return `${String(day).length === 1 ? `0${day}` : `${day}`}-${String(month).length === 1 ? `0${month}` : `${month}`}-${year}`;
 };

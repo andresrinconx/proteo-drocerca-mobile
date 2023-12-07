@@ -17,6 +17,9 @@ import BottomTabs from './navigation/BottomTabs';
 import PermissionsTobTabs from './navigation/PermissionsTobTabs';
 import PermissionsTobTabNavigator from './navigation/PermissionsTobTabNavigator';
 import TableSkeleton from './shared/TableSkeleton';
+import PermissionForm from './permissions/PermissionForm';
+import Heading from './permissions/Heading';
+import Button from './shared/Button';
 
 export {
   Navigation,
@@ -38,4 +41,7 @@ export {
   PermissionsTobTabs,
   PermissionsTobTabNavigator,
   TableSkeleton,
+  PermissionForm,
+  Heading,
+  Button,
 };
