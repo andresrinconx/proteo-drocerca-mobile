@@ -15,7 +15,7 @@ import { Loader } from '../components';
 interface Props extends NativeStackScreenProps<any, any> {}
 
 const Login = ({ navigation }: Props) => {
-  const { changeValue, user, password, sede, showPassword, error, loadingAuth } = useForm({
+  const { setForm, user, password, sede, showPassword, error, loadingAuth } = useForm({
     user: '',
     password: '',
     sede: '',
@@ -28,17 +28,16 @@ const Login = ({ navigation }: Props) => {
   const changeSede = async (sede: string) => {
     await setDataStorage('sede', sede);
     setBaseUrl(sede);
-    changeValue('sede', sede);
+    setForm({ sede });
   };
 
   const logIn = async () => {
     if ([user, password, sede].includes('')) {
-      changeValue('error', '* Todos los campos son obligatorios');
+      setForm({ error: '* Todos los campos son obligatorios' });
       return;
     }
-
-    changeValue('error', '');
-    changeValue('loadingAuth', true);
+    
+    setForm({ error: '', loadingAuth: true });
     
     try {
       const res = await fetchAuth({ 
@@ -53,14 +52,12 @@ const Login = ({ navigation }: Props) => {
         setAuth({...auth, status: 'authenticated', isBoss: res.isBoss});
   
         navigation.replace('Home');
-        changeValue('loadingAuth', false);
+        setForm({ loadingAuth: false });
       } else {
-        changeValue('loadingAuth', false);
-        changeValue('error', '* Datos incorrectos');
+        setForm({ error: '* Datos incorrectos', loadingAuth: false });
       }
     } catch (error) {
-      changeValue('loadingAuth', false);
-      changeValue('error', '* Datos incorrectos');
+      setForm({ error: '* Datos incorrectos', loadingAuth: false });
     }
   };
 
@@ -85,7 +82,7 @@ const Login = ({ navigation }: Props) => {
             placeholder='Usuario'
             placeholderTextColor={gray}
             value={user}
-            onChangeText={(text) => changeValue('user', text)}
+            onChangeText={(text) => setForm({ user: text })}
             selectionColor={gray}
           />
         </View>
@@ -98,16 +95,16 @@ const Login = ({ navigation }: Props) => {
             placeholder='Contraseña'
             placeholderTextColor={gray}
             value={password}
-            onChangeText={(text) => changeValue('password', text)}
+            onChangeText={(text) => setForm({ password: text })}
             selectionColor={gray}
           />
           {!showPassword && (
-            <TouchableOpacity onPress={() => changeValue('showPassword', true)} className='absolute right-3'>
+            <TouchableOpacity onPress={() => setForm({ showPassword: true })} className='absolute right-3'>
               <EyeIcon size={wp(7)} color={gray} />
             </TouchableOpacity>
           )}
           {showPassword && (
-            <TouchableOpacity onPress={() => changeValue('showPassword', false)} className='absolute right-3'>
+            <TouchableOpacity onPress={() => setForm({ showPassword: false })} className='absolute right-3'>
               <EyeSlashIcon size={wp(7)} color={gray} />
             </TouchableOpacity>
           )}

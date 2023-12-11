@@ -104,7 +104,7 @@ export const fetchPayroll = (data: { date: string }) => {
 export const fetchPermissions = () => {
   return apiCall<UserPermission[]>(permissionsEndpoint(), 'GET');
 };
-export const fetchNewPermission = (data: Permission) => {
+export const fetchCreatePermission = (data: Permission) => {
   return apiCall(permissionsEndpoint(), 'POST', data);
 };
 export const fetchPermission = (id: string) => {

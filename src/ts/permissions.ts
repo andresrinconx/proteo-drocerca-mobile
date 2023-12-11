@@ -1,21 +1,22 @@
 export interface Permission {
   tiposol:   string;
-  finicial:  string;
-  hsalida:   string;
-  ffinal:    string;
-  hingreso:  string;
+  finicial:  string | Date;
+  hsalida:   string | Date;
+  ffinal:    string | Date;
+  hingreso:  string | Date;
   totald:    string;
   tipomot:   string;
-  hcita:     string;
+  hcita:     string | Date;
   lugar:     string;
   mot:       string;
-  fsolicita: string;
+  fsolicita: string | Date;
 }
 
 export interface PermissionForm extends Permission {
+  isFetching: boolean;
+  pickerMode: 'date' | 'time' | string;
+  currentPickerValue: 'finicial' | 'hsalida' | 'ffinal' | 'hingreso' | 'hcita' | string;
   isPickerOpen: boolean;
-  pickerMode: 'date' | 'time';
-  currentPickerValue: string;
 }
 
 export interface UserPermission {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { fetchPermissions } from '../utils/api';
 import { UserPermission } from '../ts/permissions';
-import { Table, TableSkeleton } from '../components';
+import { Table } from '../components';
 
 const PermissionsRequests = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,31 +25,25 @@ const PermissionsRequests = () => {
   }, []);
 
   return (
-    <View className='flex-1 px-5 bg-background'>
-      {isLoading  ? (
-        <TableSkeleton />
-      ) : (
-        <View>
-          <Table 
-            columns={[
-              { name: 'date', width: 16 },
-              { name: 'place', width: 31.5 },
-              { name: 'status', width: 20, 
-                type: 'status',
-                options: [
-                  { value: 'Pendiente', bgColor: '#d0d0d0', color: '#5a5a5a' },
-                  { value: 'Aprobado', bgColor: '#5bdb5b' },
-                  { value: 'Rechazado', bgColor: '#cc0424' },
-                ]
-              },
-            ]}
-            data={permissions as UserPermission[]}
-            showHeader={false}
-            showSearch={true}
-            renderItem={(item) => <View></View>}
-          />
-        </View>
-      )}
+    <View className='flex-1 items-center px-5 bg-background'>
+      <Table 
+        columns={[
+          { name: 'date', width: 16, type: 'text' },
+          { name: 'place', width: 31.5, type: 'text' },
+          { name: 'status', width: 20, type: 'status',
+            options: [
+              { value: 'Pendiente', bgColor: '#d0d0d0', color: '#5a5a5a' },
+              { value: 'Aprobado', bgColor: '#5bdb5b' },
+              { value: 'Rechazado', bgColor: '#cc0424' },
+            ]
+          },
+        ]}
+        data={permissions as UserPermission[]}
+        isLoading={isLoading}
+        showHeader={false}
+        showSearch={true}
+        renderItem={(item) => <View></View>}
+      />
     </View>
   );
 };

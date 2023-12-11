@@ -7,7 +7,7 @@ import { blue } from '../utils/theme';
 import { fetchPayroll } from '../utils/api';
 import { formatDate, getMonthInText } from '../utils/dates';
 import { Payroll as PayrollInterface } from '../ts/payroll';
-import { Header, Loader, PayrollDetails, Table } from '../components';
+import { Header, PayrollDetails, Table } from '../components';
 
 const Payroll = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +17,7 @@ const Payroll = () => {
 
   useEffect(() => {
     const getProfileData = async () => {
+      setIsLoading(true);
       try {
         const res = await fetchPayroll({ date: formatDate(payrollDate, 'DESC') });
         if (res) {
@@ -37,40 +38,35 @@ const Payroll = () => {
 
         <Header title='Nómina' icon={require('../assets/profile.png')} />
 
-        {isLoading ? (
-          <View className='mt-10'>
-            <Loader />
-          </View>
-        ) : (
-          <View className='flex-col pt-8'>
-            
-            <Pressable className='flex-row justify-center items-center gap-x-1 ml-8 mb-6 py-1 rounded-lg bg-light-blue'
-              onPress={() => setIsDatePickerOpen(true)}
-              style={{ width: wp(45) }}
-            >
-              <Text className='text-blue' style={{ fontFamily: 'Poppins-Medium', fontSize: wp(4) }}>
-                {getMonthInText(payrollDate)} - {payrollDate.getFullYear()}
-              </Text>
+        <View className='flex-col pt-8'>
+          <Pressable className='flex-row justify-center items-center gap-x-1 ml-8 mb-6 py-1 rounded-lg bg-light-blue'
+            onPress={() => setIsDatePickerOpen(true)}
+            style={{ width: wp(45) }}
+          >
+            <Text className='text-blue' style={{ fontFamily: 'Poppins-Medium', fontSize: wp(4) }}>
+              {getMonthInText(payrollDate)} - {payrollDate.getFullYear()}
+            </Text>
 
-              <ChevronDownIcon size={wp(6)} color={blue} />
-            </Pressable>
-            
-            <View className='flex-col items-center'>
-              <Table 
-                columns={[
-                  { name: 'date', width: 28 },
-                  { name: 'number', width: 17 },
-                  { name: 'paid', width: 20, type: 'currency' },
-                ]}
-                data={payroll as PayrollInterface[]}
-                noRecordsMessage='No hay registros para este mes'
-                currency='Bs.'
-                showSearch={true}
-                renderItem={(item) => <PayrollDetails item={item} />}
-              />
-            </View>
+            <ChevronDownIcon size={wp(6)} color={blue} />
+          </Pressable>
+          
+          <View className='flex-col items-center'>
+            <Table 
+              columns={[
+                { name: 'date', width: 28, type: 'text' },
+                { name: 'number', width: 17, type: 'text' },
+                { name: 'paid', width: 20, type: 'currency',
+                  options: { currency: 'Bs.' }
+                },
+              ]}
+              data={payroll as PayrollInterface[]}
+              isLoading={isLoading}
+              noRecordsMessage='No hay registros para este mes'
+              showSearch={true}
+              renderItem={(item) => <PayrollDetails item={item} />}
+            />
           </View>
-        )}
+        </View>
       </View>
 
       <DatePicker

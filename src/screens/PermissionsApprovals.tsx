@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { Table, TableSkeleton } from '../components';
+import { Table } from '../components';
 import { fetchBossPermissions } from '../utils/api';
 import { BossPermission } from '../ts/permissions';
 
@@ -25,31 +25,25 @@ const PermissionsApprovals = () => {
   }, []);
 
   return (
-    <View className='flex-1 px-5 bg-background'>
-      {isLoading  ? (
-        <TableSkeleton />
-      ) : (
-        <View>
-          <Table
-            columns={[
-              { name: 'date', width: 16 },
-              { name: 'name', width: 31.5 },
-              { name: 'status', width: 20, 
-                type: 'status',
-                options: [
-                  { value: 'Por aprobar', bgColor: '#d0d0d0', color: '#5a5a5a' },
-                  { value: 'Aprobado', bgColor: '#5bdb5b' },
-                  { value: 'Rechazado', bgColor: '#cc0424' },
-                ]
-              },
-            ]}
-            data={permissions as BossPermission[]}
-            showHeader={false}
-            showSearch={true}
-            renderItem={(item) => <View></View>}
-          />
-        </View>
-      )}
+    <View className='flex-1 items-center px-5 bg-background'>
+      <Table
+        columns={[
+          { name: 'date', width: 16, type: 'text' },
+          { name: 'name', width: 31.5, type: 'text' },
+          { name: 'status', width: 20, type: 'status',
+            options: [
+              { value: 'Por aprobar', bgColor: '#d0d0d0', color: '#5a5a5a' },
+              { value: 'Aprobado', bgColor: '#5bdb5b' },
+              { value: 'Rechazado', bgColor: '#cc0424' },
+            ]
+          },
+        ]}
+        data={permissions as BossPermission[]}
+        isLoading={isLoading}
+        showHeader={false}
+        showSearch={true}
+        renderItem={(item) => <View></View>}
+      />
     </View>
   );
 };

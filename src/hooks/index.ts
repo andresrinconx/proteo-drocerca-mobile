@@ -5,6 +5,7 @@ import { useForm } from './useForm';
 import { useBirthdays } from './useBirthdays';
 import { usePermission } from './usePermission';
 import { useDimensions } from './useDimentions';
+import { useToast } from './useToast';
 
 export {
   useNavigation,
@@ -13,5 +14,6 @@ export {
   useForm,
   useBirthdays,
   usePermission,
-  useDimensions
+  useDimensions,
+  useToast
 };

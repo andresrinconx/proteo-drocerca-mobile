@@ -51,11 +51,62 @@ export const calcDifferenceDays = (difference: number) => {
 /**
  * Get date yyyy-mm-dd
  */
-export const formatDate = (date: Date, order?: 'ASC' | 'DESC') => {
+export const formatDate = (date: Date, order?: 'ASC' | 'DESC'): string => {
+  if (!date) return '';
+
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
   
   if (order === 'DESC') return `${year}-${String(month).length === 1 ? `0${month}` : `${month}`}-${String(day).length === 1 ? `0${day}` : `${day}`}`;
   return `${String(day).length === 1 ? `0${day}` : `${day}`}-${String(month).length === 1 ? `0${month}` : `${month}`}-${year}`;
+};
+
+/**
+ * Get hour hh-mm
+ */
+export const formatHour = (date: Date, showSeconds?: boolean): string => {
+  if (!date) return '';
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  if (showSeconds) return `${String(hours).length === 1 ? `0${hours}` : `${hours}`}:${String(minutes).length === 1 ? `0${minutes}` : `${minutes}`}:${String(seconds).length === 1 ? `0${seconds}` : `${seconds}`}`;
+  return `${String(hours).length === 1 ? `0${hours}` : `${hours}`}:${String(minutes).length === 1 ? `0${minutes}` : `${minutes}`}`;
+};
+
+/**
+ * Return total days and hours of a permission
+ */
+export const calcPermissionTime = (startDate: Date, startHour: Date, endDate: Date, endHour: Date): string => {
+  const initialDate = new Date(`${startDate.toISOString().split('T')[0]}T${startHour.toISOString().split('T')[1]}`);
+  const finalDate = new Date(`${endDate.toISOString().split('T')[0]}T${endHour.toISOString().split('T')[1]}`);
+
+  const timeDifferenceInMs = finalDate.getTime() - initialDate.getTime();
+
+  // Calculate days, hours, and minutes
+  const days = Math.floor(timeDifferenceInMs / (24 * 60 * 60 * 1000));
+  const hours = Math.floor((timeDifferenceInMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+  const minutes = Math.floor((timeDifferenceInMs % (60 * 60 * 1000)) / (60 * 1000));
+
+  // Build the result string
+  let result = '';
+  if (days > 0) {
+    result += `${days} día${days > 1 ? 's' : ''}`;
+    if (hours > 0) {
+      result += ` y ${hours} hora${hours > 1 ? 's' : ''}`;
+    }
+  } else {
+    if (hours > 0) {
+      result += `${hours} hora${hours > 1 ? 's' : ''}`;
+      if (minutes > 0) {
+        result += ` y ${minutes} minuto${minutes > 1 ? 's' : ''}`;
+      }
+    } else {
+      result += `${minutes} minuto${minutes > 1 ? 's' : ''}`;
+    }
+  }
+
+  return result;
 };
