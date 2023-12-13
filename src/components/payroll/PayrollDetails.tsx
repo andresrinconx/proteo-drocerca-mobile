@@ -26,13 +26,18 @@ const PayrollDetails = ({ item }: { item: Payroll}) => {
       <View className='items-center'>
         <Table
           columns={[
-            { name: 'concept', width: 36 },
-            { name: 'assignment', width: assignmentWidth, type: 'currency' },
-            { name: 'deduction', width: deductionWidth, type: 'currency' },
-            { name: 'paid', width: paidWidth, type: 'currency' },
+            { name: 'concept', width: 36, type: 'text' },
+            { name: 'assignment', width: assignmentWidth, type: 'currency', 
+              options: { currency }
+            },
+            { name: 'deduction', width: deductionWidth, type: 'currency',
+              options: { currency }
+            },
+            { name: 'paid', width: paidWidth, type: 'currency',
+              options: { currency }
+            },
           ]}
           data={item?.items}
-          currency={currency}
         />
 
         <View className='flex-row'>

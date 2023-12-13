@@ -2,7 +2,6 @@ import { useState, Fragment } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { background, gray, lightGray } from '../../utils/theme';
 import { tableTranslations } from '../../utils/constants';
-import { getCurrency } from '../../utils/strings';
 import { TableProps } from '../../ts/table';
 import { useDimensions } from '../../hooks';
 import { Modal } from '..';
@@ -16,7 +15,7 @@ const SkeletonRow = () => (
   </View>
 );
 
-const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoading, showSearch, renderItem }: TableProps<T>) => {
+const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoading, showSearch, minHeight, maxHeight, iconSearch, onSearch, renderItem }: TableProps<T>) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchedElement, setSearchedElement] = useState<T | null>(null);
 
@@ -146,6 +145,10 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
                     <TouchableOpacity className='h-full items-center justify-center bg-blue'
                       onPress={() => {
                         setSearchedElement(item);
+                        if (onSearch) {
+                          onSearch(item);
+                          return;
+                        }
                         setIsModalOpen(true);
                       }}
                       style={{ 
@@ -158,7 +161,7 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
                       }}
                     >
                       <Image style={{ width: 24, height: 24 }} resizeMode='cover'
-                        source={require('../../assets/search.png')}
+                        source={iconSearch || require('../../assets/search.png')}
                       />
                     </TouchableOpacity>
                   )}
@@ -173,8 +176,8 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
           bgColor={background} 
           isModalOpen={isModalOpen} 
           setIsModalOpen={setIsModalOpen}
-          minHeight={50}
-          maxHeight={140}
+          minHeight={minHeight || 50}
+          maxHeight={maxHeight || 140}
         >
           {renderItem ? renderItem(searchedElement as T) : <></>}
         </Modal>

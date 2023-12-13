@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { Table } from '../components';
+import { PermissionForm, Table } from '../components';
 import { fetchBossPermissions } from '../utils/api';
 import { BossPermission } from '../ts/permissions';
 
@@ -41,8 +41,12 @@ const PermissionsApprovals = () => {
         data={permissions as BossPermission[]}
         isLoading={isLoading}
         showHeader={false}
+        minHeight={140}
+        maxHeight={140}
         showSearch={true}
-        renderItem={(item) => <View></View>}
+        renderItem={(item) => (
+          <PermissionForm status='approval' id={item?.id || ''} />  
+        )}
       />
     </View>
   );

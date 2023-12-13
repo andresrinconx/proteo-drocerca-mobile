@@ -67,6 +67,7 @@ export const formatDate = (date: Date, order?: 'ASC' | 'DESC'): string => {
  */
 export const formatHour = (date: Date, showSeconds?: boolean): string => {
   if (!date) return '';
+  if (!(date instanceof Date)) return date;
 
   const hours = date.getHours();
   const minutes = date.getMinutes();
@@ -77,20 +78,51 @@ export const formatHour = (date: Date, showSeconds?: boolean): string => {
 };
 
 /**
+ * Get initial and final date in ms
+ */
+export const getDatesMs = (startDate: Date, startHour: Date | string, endDate: Date, endHour: Date | string) => {
+  // Convert startHour to Date if it's a string
+  if (typeof startHour === 'string') {
+    const [hours, minutes] = startHour.split(':');
+    startHour = new Date(startDate);
+    startHour.setHours(Number(hours), Number(minutes), 0, 0);
+  }
+
+  // Convert endHour to Date if it's a string
+  if (typeof endHour === 'string') {
+    const [hours, minutes] = endHour.split(':');
+    endHour = new Date(endDate);
+    endHour.setHours(Number(hours), Number(minutes), 0, 0);
+  }
+
+  // Get initialDate and finalDate
+  const initialDate = new Date(startDate);
+  initialDate.setHours(startHour.getHours(), startHour.getMinutes(), 0, 0);
+
+  const finalDate = new Date(endDate);
+  finalDate.setHours(endHour.getHours(), endHour.getMinutes(), 0, 0);
+
+  return { 
+    initialDate: initialDate.getTime(),
+    finalDate: finalDate.getTime(),
+    timeDifferenceInMs: finalDate.getTime() - initialDate.getTime()
+  };
+};
+
+/**
  * Return total days and hours of a permission
  */
-export const calcPermissionTime = (startDate: Date, startHour: Date, endDate: Date, endHour: Date): string => {
-  const initialDate = new Date(`${startDate.toISOString().split('T')[0]}T${startHour.toISOString().split('T')[1]}`);
-  const finalDate = new Date(`${endDate.toISOString().split('T')[0]}T${endHour.toISOString().split('T')[1]}`);
+export const calcPermissionTime = (startDate: Date, startHour: Date | string, endDate: Date, endHour: Date | string): string => {
+  const { timeDifferenceInMs } = getDatesMs(startDate as Date, startHour, endDate as Date, endHour);
 
-  const timeDifferenceInMs = finalDate.getTime() - initialDate.getTime();
-
-  // Calculate days, hours, and minutes
   const days = Math.floor(timeDifferenceInMs / (24 * 60 * 60 * 1000));
-  const hours = Math.floor((timeDifferenceInMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-  const minutes = Math.floor((timeDifferenceInMs % (60 * 60 * 1000)) / (60 * 1000));
+  const remainingMs = timeDifferenceInMs % (24 * 60 * 60 * 1000);
 
-  // Build the result string
+  const hours = Math.floor(remainingMs / (60 * 60 * 1000));
+  const remainingMinutes = remainingMs % (60 * 60 * 1000);
+
+  const minutes = Math.floor(remainingMinutes / (60 * 1000));
+
   let result = '';
   if (days > 0) {
     result += `${days} día${days > 1 ? 's' : ''}`;
@@ -104,7 +136,7 @@ export const calcPermissionTime = (startDate: Date, startHour: Date, endDate: Da
         result += ` y ${minutes} minuto${minutes > 1 ? 's' : ''}`;
       }
     } else {
-      result += `${minutes} minuto${minutes > 1 ? 's' : ''}`;
+      result += `${minutes <= 0 ? '0' : `${minutes} minuto${minutes > 1 ? 's' : ''}`}`;
     }
   }
 

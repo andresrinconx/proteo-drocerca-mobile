@@ -5,7 +5,7 @@ import { Login } from '../ts/user';
 import { Profile } from '../ts/user';
 import { MonthBirthday, NextBirthday } from '../ts/birthdays';
 import { Payroll } from '../ts/payroll';
-import { BossPermission, Permission, UserPermission } from '../ts/permissions';
+import { BossPermission, Permission, PermissionWithUser, UserPermission } from '../ts/permissions';
 
 let apiBaseUrl: string;
 
@@ -108,7 +108,7 @@ export const fetchCreatePermission = (data: Permission) => {
   return apiCall(permissionsEndpoint(), 'POST', data);
 };
 export const fetchPermission = (id: string) => {
-  return apiCall(permissionEndpoint(id), 'GET');
+  return apiCall<PermissionWithUser>(permissionEndpoint(id), 'GET');
 };
 export const fetchUpdatePermission = (id: string, data: Permission) => {
   return apiCall(permissionEndpoint(id), 'PUT', data);

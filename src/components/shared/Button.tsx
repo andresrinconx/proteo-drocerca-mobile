@@ -1,5 +1,4 @@
 import { View, TouchableOpacity, Text } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { blue } from '../../utils/theme';
 import Loader from './Loader';
 
@@ -10,27 +9,30 @@ interface ButtonProps {
   fontSize?: number;
   height?: number;
   width?: number;
+  opacity?: number;
+  disabled?: boolean;
   isLoading?: boolean;
   onPress: () => void;
 }
 
-const Button = ({ bgColor, color, text, fontSize, height, width, isLoading, onPress }: ButtonProps) => {
+const Button = ({ bgColor, color, text, fontSize, height, width, opacity, disabled, isLoading, onPress }: ButtonProps) => {
   return (
     <View className='justify-center items-center rounded-xl' 
       style={{ 
-        height: wp(height || 12), 
+        height: height || 48, 
         width: `${width || 45}%`,
         backgroundColor: bgColor || blue,
+        opacity: opacity || 1,
       }}
     >
       {isLoading ? (
         <Loader color='white' size={26} />
       ) : (
-        <TouchableOpacity onPress={onPress} className='w-full'>
+        <TouchableOpacity onPress={onPress} className='w-full' disabled={disabled || false}>
           <Text className='text-center' 
             style={{ 
               fontFamily: 'Poppins-SemiBold', 
-              fontSize: wp(fontSize || 5),
+              fontSize: fontSize || 20,
               color: color || 'white', 
             }}
           >{text || 'Ok'}</Text>

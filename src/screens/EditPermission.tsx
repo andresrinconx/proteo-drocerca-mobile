@@ -1,8 +1,11 @@
 import { ScrollView, StatusBar } from 'react-native';
 import { Header, PermissionForm } from '../components';
 import { blue } from '../utils/theme';
+import { useRoute } from '@react-navigation/native';
 
-const NewPermission = () => {
+const EditPermission = () => {
+  const { params: { id } } = useRoute() as { params: { id: string } };
+
   return (
     <ScrollView className='flex-1 bg-background' 
       showsVerticalScrollIndicator={false}
@@ -13,10 +16,11 @@ const NewPermission = () => {
       <Header title='Solicitud de Permiso' icon={require('../assets/profile.png')} isSecondary />
 
       <PermissionForm 
-        status='create'
+        status='update'
+        id={id}
       />
     </ScrollView>
   );
 };
 
-export default NewPermission;
+export default EditPermission;

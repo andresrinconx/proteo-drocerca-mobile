@@ -3,7 +3,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const ProfileSkeleton = () => {
   return (
-    <View className='overflow-hidden'>
+    <View className='flex-col items-center overflow-hidden'>
       {/* profile data */}
       <View className='flex-col gap-y-4 mb-10'>
         <View className='flex-row items-center gap-x-4'>

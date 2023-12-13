@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { fetchPermissions } from '../utils/api';
 import { UserPermission } from '../ts/permissions';
-import { Table } from '../components';
+import { PermissionForm, Table } from '../components';
+import { useNavigation } from '../hooks';
 
 const PermissionsRequests = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [permissions, setPermissions] = useState<UserPermission[] | null>(null);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -42,7 +45,8 @@ const PermissionsRequests = () => {
         isLoading={isLoading}
         showHeader={false}
         showSearch={true}
-        renderItem={(item) => <View></View>}
+        iconSearch={require('../assets/arrow.png')}
+        onSearch={(item) => navigation.navigate('EditPermission', { id: item.id })}
       />
     </View>
   );

@@ -1,38 +1,31 @@
-import { useToast } from '.';
 import { Permission } from '../ts/permissions';
 import { pemissionFormDictionary } from '../utils/constants';
-import { fetchCreatePermission } from '../utils/api';
-import { formatDate, formatHour } from '../utils/dates';
+import { fetchCreatePermission, fetchUpdatePermission } from '../utils/api';
+import { formatDate, formatHour, getDatesMs } from '../utils/dates';
 
 export const usePermission = () => {
-  const { showToast } = useToast();
 
-  // create
-  const createPermission = async (data: Permission) => {
+  // create & update
+  const savePermission = async (data: Permission, id: string) => {
     const { tiposol, finicial, hsalida, ffinal, hingreso, totald, tipomot, hcita, lugar, mot, fsolicita } = data;
-
+    
     // empty fields
     for (const key in pemissionFormDictionary) {
       const permissionKey = key as keyof Permission;
 
       if (!data[permissionKey]) {
-        showToast((pemissionFormDictionary as Permission)[key as keyof Permission] as string);
-        return;
+        throw new Error((pemissionFormDictionary as Permission)[key as keyof Permission] as string);
       }
     }
 
-    // initial date higher than final date
-    const initialDate = new Date(`${(finicial as Date).toISOString().split('T')[0]}T${(hsalida as Date).toISOString().split('T')[1]}`);
-    const finalDate = new Date(`${(ffinal as Date).toISOString().split('T')[0]}T${(hingreso as Date).toISOString().split('T')[1]}`);
+    // date validations
+    const { initialDate, finalDate } = getDatesMs(finicial as Date, hsalida, ffinal as Date, hingreso);
+    if (initialDate > finalDate) throw new Error('La fecha de salida no puede ser mayor a la fecha de ingreso');
+    if (totald === '0') throw new Error('El total de horas no puede ser cero');
 
-    if (initialDate > finalDate) {
-      showToast('La fecha de salida no puede ser mayor a la fecha de ingreso');
-      return;
-    }
-
-    // create permission
-    await fetchCreatePermission({
-      tiposol: tiposol.substring(0, 1), 
+    // save permission
+    const permission = {
+      tiposol, 
       finicial: formatDate(finicial as Date, 'DESC'), 
       hsalida: formatHour(hsalida as Date, true), 
       ffinal: formatDate(ffinal as Date, 'DESC'), 
@@ -43,28 +36,16 @@ export const usePermission = () => {
       lugar, 
       mot, 
       fsolicita: formatDate(fsolicita as Date, 'DESC'),
-    });
+    };
+
+    if (!id) {
+      // create
+      await fetchCreatePermission(permission);
+    } else {
+      // update
+      await fetchUpdatePermission(id, permission);
+    }
   };
 
-  // update
-  const updatePermission = async (data: Permission) => {
-    // 
-  };
-
-  // approve
-  const approvePermission = async (data: Permission) => {
-    // 
-  };
-
-  // reject
-  const rejectPermission = async (data: Permission) => {
-    // 
-  };
-
-  return {
-    createPermission,
-    updatePermission,
-    approvePermission,
-    rejectPermission
-  };
+  return { savePermission };
 };

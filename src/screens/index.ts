@@ -6,6 +6,7 @@ import PermissionsRequests from './PermissionsRequests';
 import Birthdays from './Birthdays';
 import Payroll from './Payroll';
 import NewPermission from './NewPermission';
+import EditPermission from './EditPermission';
 
 export {
   Login,
@@ -16,4 +17,5 @@ export {
   PermissionsApprovals,
   PermissionsRequests,
   NewPermission,
+  EditPermission,
 };

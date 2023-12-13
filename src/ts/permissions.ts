@@ -12,20 +12,32 @@ export interface Permission {
   fsolicita: string | Date;
 }
 
-export interface PermissionForm extends Permission {
+export interface PermissionWithUser extends Permission {
+  name: string;
+  status: string;
+}
+
+export interface PermissionForm extends PermissionWithUser {
+  isLoading: boolean;
   isFetching: boolean;
   pickerMode: 'date' | 'time' | string;
   currentPickerValue: 'finicial' | 'hsalida' | 'ffinal' | 'hingreso' | 'hcita' | string;
   isPickerOpen: boolean;
 }
 
+export type PermissionFormProps = 
+  | { status: 'create'; id?: never }
+  | { status: 'update' | 'approval'; id: string }
+
 export interface UserPermission {
+  id: string;
   date:   string;
   place:  string;
   status: string;
 }
 
 export interface BossPermission {
+  id: string;
   date:   string;
   time:   string;
   name:   string;
