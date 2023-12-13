@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { shadow } from '../../utils/theme';
 import { fetchProfile } from '../../utils/api';
@@ -44,7 +44,9 @@ const Container = () => {
           <View className='flex-col gap-y-4 mb-10'>
             {/* img & name */}
             <View className='flex-row items-center gap-x-4'>
-              <View className='rounded-full bg-light-blue' style={{ width: wp(14), height: wp(14) }} />
+              <Image style={{ width: 55, height: 55 }} resizeMode='cover'
+                source={require('../../assets/profile-pencil.png')}
+              />
 
               <View className='flex-col gap-y-1' style={{ width: wp(61) }}>
                 <Text className='text-blue' style={{ fontFamily: 'Poppins-Bold', fontSize: wp(6) }}

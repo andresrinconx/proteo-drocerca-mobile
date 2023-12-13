@@ -45,7 +45,7 @@ const PermissionsRequests = () => {
         isLoading={isLoading}
         showHeader={false}
         showSearch={true}
-        iconSearch={require('../assets/arrow.png')}
+        iconSearch={require('../assets/pencil-white.png')}
         onSearch={(item) => navigation.navigate('EditPermission', { id: item.id })}
       />
     </View>

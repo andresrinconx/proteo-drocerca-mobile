@@ -65,7 +65,7 @@ const Calendar = ({ dayInText, monthInText, calendarDays }: Calendar) => {
                                 <CircleDay day={Number(day)} />
                                 <View className='flex-row justify-center'>
                                   <Image style={{ width: wp(7), height: wp(7) }} resizeMode='cover'
-                                    source={require('../../assets/proteo.png')}
+                                    source={require('../../assets/cake.png')}
                                   />
                                 </View>
                               </View>

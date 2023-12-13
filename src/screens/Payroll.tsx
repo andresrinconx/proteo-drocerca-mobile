@@ -36,7 +36,7 @@ const Payroll = () => {
       <View className='flex-1 bg-background'>
         <StatusBar backgroundColor={blue} barStyle='light-content' />
 
-        <Header title='Nómina' icon={require('../assets/profile.png')} />
+        <Header title='Nómina' icon={require('../assets/payroll-blue.png')} />
 
         <View className='flex-col pt-8'>
           <Pressable className='flex-row justify-center items-center gap-x-1 ml-8 mb-6 py-1 rounded-lg bg-light-blue'

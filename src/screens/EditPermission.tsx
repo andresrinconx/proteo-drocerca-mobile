@@ -13,7 +13,7 @@ const EditPermission = () => {
     >
       <StatusBar backgroundColor={blue} barStyle='light-content' />
 
-      <Header title='Solicitud de Permiso' icon={require('../assets/profile.png')} isSecondary />
+      <Header title='Solicitud de Permiso' icon={require('../assets/arrow-left.png')} isSecondary />
 
       <PermissionForm 
         status='update'

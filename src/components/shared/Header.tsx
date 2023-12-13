@@ -20,8 +20,8 @@ const Header = ({ title, icon, isSecondary }: Header) => {
         </Text>
 
         {isSecondary && (
-          <TouchableOpacity onPress={() => navigation.goBack()} className='w-10 h-10 items-center justify-center absolute left-4'>
-            <Image style={{ width: wp(7), height: wp(7) }} resizeMode='cover'
+          <TouchableOpacity onPress={() => navigation.goBack()} className='w-10 h-10 items-center justify-center absolute left-4 bottom-5'>
+            <Image style={{ width: wp(6), height: wp(6) }} resizeMode='cover'
               source={icon}
             />
           </TouchableOpacity>

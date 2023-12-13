@@ -14,15 +14,15 @@ const iconsData: { [key: string]: IconData } = {
   },
   permissions: {
     translation: 'Permisos',
-    icon: require('../../assets/profile.png'),
+    icon: require('../../assets/permissions.png'),
   },
   payroll: {
     translation: 'Nómina',
-    icon: require('../../assets/profile.png'),
+    icon: require('../../assets/payroll.png'),
   },
   birthdays: {
     translation: 'Cumples',
-    icon: require('../../assets/profile.png'),
+    icon: require('../../assets/birthdays.png'),
   }
 };
 

@@ -12,7 +12,7 @@ let apiBaseUrl: string;
 export const setBaseUrl = async (sede: string) => {
   switch (sede) {
     case 'Mérida':
-      apiBaseUrl = 'http://10.0.2.2:4000/api';
+      apiBaseUrl = 'http://192.168.88.193:4000/api';
       break;
     case 'Centro':
       apiBaseUrl = LOCAL_API_URL_CENTRO;

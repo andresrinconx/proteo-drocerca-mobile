@@ -13,7 +13,7 @@ const Permissions = () => {
     <View className='flex-1 bg-background'>
       <StatusBar backgroundColor={blue} barStyle='light-content' />
 
-      <Header title='Permisos' icon={require('../assets/profile.png')} />
+      <Header title='Permisos' icon={require('../assets/permissions-blue.png')} />
       
       <PermissionsTobTabs />
 

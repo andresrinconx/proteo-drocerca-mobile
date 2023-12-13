@@ -10,7 +10,7 @@ const Birthdays = () => {
     <View className='flex-1 bg-background'>
       <StatusBar backgroundColor={blue} barStyle='light-content' />
 
-      <Header title='Cumpleaños' icon={require('../assets/profile.png')} />
+      <Header title='Cumpleaños' icon={require('../assets/cake.png')} />
 
       {isLoading ? (
         <View className='mt-10'>
