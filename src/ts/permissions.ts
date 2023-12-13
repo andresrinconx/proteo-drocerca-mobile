@@ -18,8 +18,9 @@ export interface PermissionWithUser extends Permission {
 }
 
 export interface PermissionForm extends PermissionWithUser {
-  isLoading: boolean;
-  isFetching: boolean;
+  isGettingPermission: boolean;
+  isRequesting: boolean;
+  isRejecting: boolean;
   pickerMode: 'date' | 'time' | string;
   currentPickerValue: 'finicial' | 'hsalida' | 'ffinal' | 'hingreso' | 'hcita' | string;
   isPickerOpen: boolean;

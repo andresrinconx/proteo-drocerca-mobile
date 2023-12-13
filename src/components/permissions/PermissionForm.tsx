@@ -14,8 +14,8 @@ import { Button, Heading, Loader } from '..';
 
 const PermissionForm = ({ status, id }: PermissionFormProps) => {
   const { savePermission } = usePermission();
-  const { setForm, isLoading, isFetching, tiposol, finicial, hsalida, ffinal, hingreso, totald, tipomot, hcita, lugar, mot, fsolicita, pickerMode, name, status: permisisonStatus, currentPickerValue, isPickerOpen } = useForm<PermissionFormInterface>({
-    isLoading: false, isFetching: false, tiposol: '', finicial: '', hsalida: '', ffinal: '', hingreso: '', totald: '', tipomot: '', hcita: '', lugar: '', mot: '', fsolicita: new Date(), pickerMode: '', name: '', status: '', currentPickerValue: '', isPickerOpen: false
+  const { setForm, isGettingPermission, isRequesting, isRejecting, tiposol, finicial, hsalida, ffinal, hingreso, totald, tipomot, hcita, lugar, mot, fsolicita, pickerMode, name, status: permisisonStatus, currentPickerValue, isPickerOpen } = useForm<PermissionFormInterface>({
+    isGettingPermission: false, isRequesting: false, isRejecting: false, tiposol: '', finicial: '', hsalida: '', ffinal: '', hingreso: '', totald: '', tipomot: '', hcita: '', lugar: '', mot: '', fsolicita: new Date(), pickerMode: '', name: '', status: '', currentPickerValue: '', isPickerOpen: false
   });
   
   const { auth: { isHRBoss } } = useAuth();
@@ -23,6 +23,7 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
   const { showToast } = useToast();
 
   const approval = status === 'approval';
+  const update = status === 'update';
   const create = status === 'create';
   const permission = { tiposol, finicial, hsalida, ffinal, hingreso, totald, tipomot, hcita, lugar, mot, fsolicita };
 
@@ -30,9 +31,9 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
   useEffect(() => {
     const getPermission = async () => {
       try {
-        setForm({ isLoading: true });
+        setForm({ isGettingPermission: true });
         const { tiposol, finicial, hsalida, ffinal, hingreso, totald, tipomot, hcita, lugar, mot, fsolicita, name, status } = await fetchPermission(id as string);
-        setForm({ isLoading: false, tiposol, finicial: new Date(finicial), hsalida, ffinal: new Date(ffinal), hingreso, totald, tipomot, hcita, lugar, mot, fsolicita: new Date(fsolicita), name, status });
+        setForm({ isGettingPermission: false, tiposol, finicial: new Date(finicial), hsalida, ffinal: new Date(ffinal), hingreso, totald, tipomot, hcita, lugar, mot, fsolicita: new Date(fsolicita), name, status });
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +52,7 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
 
   return (
     <>
-      {!create && (!id || isLoading) ? (
+      {!create && (!id || isGettingPermission) ? (
         <View className='pt-10'>
           <Loader color={blue} size={35} />
         </View>
@@ -262,67 +263,80 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
             {!approval ? (
               <Button 
                 onPress={async () => {
-                  setForm({ isFetching: true });
+                  setForm({ isRequesting: true });
                   try {
                     await savePermission(permission, id as string);
-                    showToast(`${create ? 'Solicitud realizada' : 'Solicitud actualizada'}`);
+                    showToast(create ? 'Solicitud realizada' : 'Solicitud actualizada');
                     navigation.goBack();
                   } catch (error) {
                     showToast((error as Error).message);
                   } finally {
-                    setForm({ isFetching: false });
+                    setForm({ isRequesting: false });
                   }
                 }} 
                 width={100} 
-                text={`${create ? 'Realizar Solicitud' : 'Actualizar Solicitud'}`} 
-                isLoading={isFetching}
+                text={create ? 'Realizar Solicitud' : permisisonStatus !== 'Por aprobar' ? `${permisisonStatus}` : 'Actualizar Solicitud'} 
+                disabled={permisisonStatus !== 'Por aprobar' && update}
+                opacity={permisisonStatus !== 'Por aprobar' && update ? 0.8 : 1}
+                isLoading={isRequesting}
               />
             ) : (
               isHRBoss ? (
-                <View className='flex-row items-center justify-between'>
+                permisisonStatus !== 'Por aprobar' ? (
                   <Button
-                    onPress={async () => {
-                      setForm({ isFetching: true });
-                      try {
-                        await fetchRejectPermission({ id: id as string });
-                        showToast('Solicitud rechazada');
-                        navigation.goBack();
-                      } catch (error) {
-                        showToast((error as Error).message);
-                      } finally {
-                        setForm({ isFetching: false });
-                      }
-                    }} 
-                    width={49} 
-                    text={permisisonStatus !== 'Por aprobar' ? 'Rechazada' : 'Rechazar'}
-                    disabled={permisisonStatus !== 'Por aprobar'}
-                    opacity={permisisonStatus !== 'Por aprobar' ? 0.6 : 1}
-                    isLoading={isFetching}
+                    onPress={() => null}
+                    width={100} 
+                    text={permisisonStatus}
+                    disabled={true}
+                    opacity={0.8}
+                    isLoading={isRequesting}
                   />
-                  <Button
-                    onPress={async () => {
-                      setForm({ isFetching: true });
-                      try {
-                        await fetchApprovePermission({ id: id as string });
-                        showToast('Solicitud aprobada');
-                        navigation.goBack();
-                      } catch (error) {
-                        showToast((error as Error).message);
-                      } finally {
-                        setForm({ isFetching: false });
-                      }
-                    }} 
-                    width={49} 
-                    text={permisisonStatus !== 'Por aprobar' ? 'Aprobada' : 'Aprobar'}
-                    disabled={permisisonStatus !== 'Por aprobar'}
-                    opacity={permisisonStatus !== 'Por aprobar' ? 0.8 : 1}
-                    isLoading={isFetching}
-                  />
-                </View>
+                ) : (
+                  <View className='flex-row items-center justify-between'>
+                    <Button
+                      onPress={async () => {
+                        setForm({ isRejecting: true });
+                        try {
+                          await fetchRejectPermission({ id: id as string });
+                          showToast('Solicitud rechazada');
+                          navigation.goBack();
+                        } catch (error) {
+                          showToast((error as Error).message);
+                        } finally {
+                          setForm({ isRejecting: false });
+                        }
+                      }} 
+                      width={49} 
+                      text={permisisonStatus !== 'Por aprobar' ? 'Rechazada' : 'Rechazar'}
+                      disabled={permisisonStatus !== 'Por aprobar'}
+                      opacity={permisisonStatus !== 'Por aprobar' ? 0.6 : 1}
+                      isLoading={isRejecting}
+                    />
+                    <Button
+                      onPress={async () => {
+                        setForm({ isRequesting: true });
+                        try {
+                          await fetchApprovePermission({ id: id as string });
+                          showToast('Solicitud aprobada');
+                          navigation.goBack();
+                        } catch (error) {
+                          showToast((error as Error).message);
+                        } finally {
+                          setForm({ isRequesting: false });
+                        }
+                      }} 
+                      width={49} 
+                      text={permisisonStatus !== 'Por aprobar' ? 'Aprobada' : 'Aprobar'}
+                      disabled={permisisonStatus !== 'Por aprobar'}
+                      opacity={permisisonStatus !== 'Por aprobar' ? 0.8 : 1}
+                      isLoading={isRequesting}
+                    />
+                  </View>
+                )
               ) : (
                 <Button
                   onPress={async () => {
-                    setForm({ isFetching: true });
+                    setForm({ isRequesting: true });
                     try {
                       await fetchApprovePermission({ id: id as string });
                       showToast('Solicitud aprobada');
@@ -330,14 +344,14 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                     } catch (error) {
                       showToast((error as Error).message);
                     } finally {
-                      setForm({ isFetching: false });
+                      setForm({ isRequesting: false });
                     }
                   }} 
                   width={100} 
                   text={permisisonStatus !== 'Por aprobar' ? 'Solicitud aprobada' : 'Aprobar Solicitud'}
                   disabled={permisisonStatus !== 'Por aprobar'}
                   opacity={permisisonStatus !== 'Por aprobar' ? 0.8 : 1}
-                  isLoading={isFetching}
+                  isLoading={isRequesting}
                 />
               )
             )}
