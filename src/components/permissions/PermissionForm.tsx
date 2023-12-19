@@ -11,6 +11,7 @@ import { calcPermissionTime, formatDate, formatHour } from '../../utils/dates';
 import { fetchApprovePermission, fetchPermission, fetchRejectPermission } from '../../utils/api';
 import { capitalizeEveryWord } from '../../utils/strings';
 import { Button, Heading, Loader } from '..';
+import { socket } from '../../helpers/socket';
 
 const PermissionForm = ({ status, id }: PermissionFormProps) => {
   const { savePermission } = usePermission();
@@ -293,11 +294,15 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                   />
                 ) : (
                   <View className='flex-row items-center justify-between'>
+
+                    {/* Reject */}
                     <Button
                       onPress={async () => {
                         setForm({ isRejecting: true });
                         try {
                           await fetchRejectPermission({ id: id as string });
+                          socket.emit('response permission', { id: id as string, status: 'Rechazado' });
+
                           showToast('Solicitud rechazada');
                           navigation.goBack();
                         } catch (error) {
@@ -312,11 +317,15 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                       opacity={permisisonStatus !== 'Por aprobar' ? 0.6 : 1}
                       isLoading={isRejecting}
                     />
+
+                    {/* Approve */}
                     <Button
                       onPress={async () => {
                         setForm({ isRequesting: true });
                         try {
                           await fetchApprovePermission({ id: id as string });
+                          socket.emit('response permission', { id: id as string, status: 'Aprobado' }); 
+
                           showToast('Solicitud aprobada');
                           navigation.goBack();
                         } catch (error) {
@@ -338,7 +347,9 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                   onPress={async () => {
                     setForm({ isRequesting: true });
                     try {
-                      await fetchApprovePermission({ id: id as string });
+                      const permissionToBoss = await fetchApprovePermission({ id: id as string });
+                      socket.emit('new permission', permissionToBoss);
+                      
                       showToast('Solicitud aprobada');
                       navigation.goBack();
                     } catch (error) {

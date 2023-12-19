@@ -2,6 +2,7 @@ import { Permission } from '../ts/permissions';
 import { pemissionFormDictionary } from '../utils/constants';
 import { fetchCreatePermission, fetchUpdatePermission } from '../utils/api';
 import { formatDate, formatHour, getDatesMs } from '../utils/dates';
+import { socket } from '../helpers/socket';
 
 export const usePermission = () => {
 
@@ -40,7 +41,8 @@ export const usePermission = () => {
 
     if (!id) {
       // create
-      await fetchCreatePermission(permission);
+      const permissionToBoss = await fetchCreatePermission(permission);
+      socket.emit('new permission', permissionToBoss);
     } else {
       // update
       await fetchUpdatePermission(id, permission);

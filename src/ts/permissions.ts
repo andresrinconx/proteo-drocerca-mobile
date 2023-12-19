@@ -40,7 +40,14 @@ export interface UserPermission {
 export interface BossPermission {
   id: string;
   date:   string;
-  time:   string;
   name:   string;
   status: string;
+}
+
+export interface PermissionToBoss {
+  id: string;
+  date: string;
+  name: string;
+  status: string;
+  bossId: string;
 }

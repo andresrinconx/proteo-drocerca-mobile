@@ -50,13 +50,13 @@ const PayrollDetails = ({ item }: { item: Payroll}) => {
               borderBottomLeftRadius: wp(3),
             }}
           >
-            <Text className='mx-1 text-center' style={{ width: wp(assignmentWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
+            <Text className='mx-1 text-center text-typography' style={{ width: wp(assignmentWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
               {getCurrency(currency, item?.assignment)}
             </Text>
-            <Text className='mx-1 text-center' style={{ width: wp(deductionWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
+            <Text className='mx-1 text-center text-typography' style={{ width: wp(deductionWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
               {getCurrency(currency, item?.deduction)}
             </Text>
-            <Text className='mx-1 text-center' style={{ width: wp(paidWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
+            <Text className='mx-1 text-center text-typography' style={{ width: wp(paidWidth), fontFamily: 'Poppins-Regular', fontSize: wp(2.8) }}>
               {getCurrency(currency, item?.paid)}
             </Text>
           </View>

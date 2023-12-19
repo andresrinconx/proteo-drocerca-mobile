@@ -1,7 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 
 interface ProteoContextProps {
-
+  
 }
 
 export const ProteoContext = createContext({} as ProteoContextProps);

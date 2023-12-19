@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { fetchPermissions } from '../utils/api';
 import { UserPermission } from '../ts/permissions';
-import { PermissionForm, Table } from '../components';
+import { Table } from '../components';
 import { useNavigation } from '../hooks';
+import { socket } from '../helpers/socket';
 
 const PermissionsRequests = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [permissions, setPermissions] = useState<UserPermission[] | null>(null);
+  const [permissions, setPermissions] = useState<UserPermission[]>([]);
 
   const navigation = useNavigation();
 
@@ -26,6 +27,14 @@ const PermissionsRequests = () => {
     };
     getPermissions();
   }, []);
+
+  useEffect(() => {
+    socket.on('permission to user', (data: { id: string, status: string }) => {
+      setPermissions(prevState => (
+        prevState ? prevState?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission) : []
+      ));
+    });
+  }, [socket]);
 
   return (
     <View className='flex-1 items-center px-5 bg-background'>

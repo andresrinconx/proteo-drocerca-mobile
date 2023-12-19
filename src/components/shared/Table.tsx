@@ -63,16 +63,16 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
             <SkeletonRow />
           </View>
         ) : (
-          data.length === 0 ? (
+          data?.length === 0 ? (
             <View className='h-10 justify-center items-center rounded-xl' style={{ paddingHorizontal: separation, backgroundColor: lightGray }}>
-              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12 }}>
+              <Text className='text-typography' style={{ fontFamily: 'Poppins-Regular', fontSize: 12 }}>
                 {noRecordsMessage}
               </Text>
             </View>
           ) : (
-            data.map((item, index) => {
+            data?.map((item, index) => {
               const isFirst = index === 0;
-              const isLast = index === data.length - 1;
+              const isLast = index === data?.length - 1;
               const isPair = index % 2 !== 0;
 
               return (
@@ -100,7 +100,7 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
                                 marginRight: isLast && !showSearch ? 0 : separation 
                               }}
                             >
-                              <Text className='text-center' style={{ fontFamily: 'Poppins-Regular', fontSize: 10.4 }} numberOfLines={2}>
+                              <Text className='text-center text-typography' style={{ fontFamily: 'Poppins-Regular', fontSize: 10.4 }} numberOfLines={2}>
                                 {options.currency} {itemName}
                               </Text>
                             </View>
@@ -113,7 +113,7 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
                                 marginRight: isLast && !showSearch ? 0 : separation,
                               }}
                             >
-                              <Text className='w-full rounded-xl text-center'
+                              <Text className='w-full rounded-xl text-center text-typography'
                                 style={{ 
                                   backgroundColor: options?.find(item => item.value === itemName)?.bgColor || gray,
                                   color: options?.find(item => item.value === itemName)?.color || 'white', 
@@ -132,7 +132,7 @@ const Table = <T,>({ columns, data, noRecordsMessage, showHeader = true, isLoadi
                               marginRight: isLast && !showSearch ? 0 : separation 
                             }}
                           >
-                            <Text className='text-center' style={{ fontFamily: 'Poppins-Regular', fontSize: 10.4 }} numberOfLines={2}>
+                            <Text className='text-center text-typography' style={{ fontFamily: 'Poppins-Regular', fontSize: 10.4 }} numberOfLines={2}>
                               {itemName}
                             </Text>
                           </View>

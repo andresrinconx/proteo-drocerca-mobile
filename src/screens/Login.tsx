@@ -11,6 +11,7 @@ import { getFCMToken } from '../helpers/pushNotification';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useAuth, useForm } from '../hooks';
 import { Loader } from '../components';
+import { setSocketUrl } from '../helpers/socket';
 
 interface Props extends NativeStackScreenProps<any, any> {}
 
@@ -28,6 +29,7 @@ const Login = ({ navigation }: Props) => {
   const changeSede = async (sede: string) => {
     await setDataStorage('sede', sede);
     setBaseUrl(sede);
+    setSocketUrl(sede);
     setForm({ sede });
   };
 

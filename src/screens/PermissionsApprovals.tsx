@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { PermissionForm, Table } from '../components';
 import { fetchBossPermissions } from '../utils/api';
-import { BossPermission } from '../ts/permissions';
+import { BossPermission, PermissionToBoss } from '../ts/permissions';
+import { socket } from '../helpers/socket';
+import { useAuth } from '../hooks';
 
 const PermissionsApprovals = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [permissions, setPermissions] = useState<BossPermission[] | null>(null);
+
+  const { auth: { id } } = useAuth();
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -23,6 +27,16 @@ const PermissionsApprovals = () => {
     };
     getPermissions();
   }, []);
+
+  useEffect(() => {
+    socket.on('permission to boss', (permission: PermissionToBoss) => {
+      if (permission.bossId === id) {
+        setPermissions(prevState => (
+          prevState ? [permission, ...prevState] : [permission]
+        ));
+      }
+    });
+  }, [socket]);
 
   return (
     <View className='flex-1 items-center px-5 bg-background'>

@@ -12,7 +12,7 @@ let apiBaseUrl: string;
 export const setBaseUrl = async (sede: string) => {
   switch (sede) {
     case 'Mérida':
-      apiBaseUrl = 'http://192.168.88.193:4000/api';
+      apiBaseUrl = 'http://10.0.2.2:4000';
       break;
     case 'Centro':
       apiBaseUrl = LOCAL_API_URL_CENTRO;
@@ -28,30 +28,30 @@ export const setBaseUrl = async (sede: string) => {
 // ***********************************************
 
 // User
-const authEndpoint = () => `${apiBaseUrl}/user/auth`;
-const validateEndpoint = () => `${apiBaseUrl}/user/validate`;
-const logOutEndpoint = () => `${apiBaseUrl}/user/logout`;
-const profileEndpoint = () => `${apiBaseUrl}/user/profile`;
+const authEndpoint = () => `${apiBaseUrl}/api/user/auth`;
+const validateEndpoint = () => `${apiBaseUrl}/api/user/validate`;
+const logOutEndpoint = () => `${apiBaseUrl}/api/user/logout`;
+const profileEndpoint = () => `${apiBaseUrl}/api/user/profile`;
 
 // Birthdays
-const monthBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/month`;
-const nextBirthdaysEndpoint = () => `${apiBaseUrl}/birthdays/next`;
+const monthBirthdaysEndpoint = () => `${apiBaseUrl}/api/birthdays/month`;
+const nextBirthdaysEndpoint = () => `${apiBaseUrl}/api/birthdays/next`;
 
 // Payroll
-const payrollEndpoint = () => `${apiBaseUrl}/payroll`;
+const payrollEndpoint = () => `${apiBaseUrl}/api/payroll`;
 
 // Permissions
-const permissionsEndpoint = () => `${apiBaseUrl}/permissions`;
-const permissionEndpoint = (id: string) => `${apiBaseUrl}/permissions/${id}`;
-const bossPermissionsEndpoint = () => `${apiBaseUrl}/permissions/boss`;
-const approvePermissionEndpoint = () => `${apiBaseUrl}/permissions/approve`;
-const rejectPermissionEndpoint = () => `${apiBaseUrl}/permissions/reject`;
+const permissionsEndpoint = () => `${apiBaseUrl}/api/permissions`;
+const permissionEndpoint = (id: string) => `${apiBaseUrl}/api/permissions/${id}`;
+const bossPermissionsEndpoint = () => `${apiBaseUrl}/api/permissions/boss`;
+const approvePermissionEndpoint = () => `${apiBaseUrl}/api/permissions/approve`;
+const rejectPermissionEndpoint = () => `${apiBaseUrl}/api/permissions/reject`;
 
 // ***********************************************
 // API CALL
 // ***********************************************
 
-const apiCall = async <T>(endpoint: string, method: Uppercase<string>, data?: any): Promise<T> => {
+const apiCall = async <T>(endpoint: string, method: 'GET' | 'POST' | 'PUT', data?: any): Promise<T> => {
   try {
     const jwt = await getDataStorage('jwt');
     const res = await axios.request({

@@ -3,6 +3,7 @@ import { getDataStorage, removeDataStorage, setDataStorage } from '../utils/asyn
 import { Auth } from '../ts/user';
 import { fetchLogOut, fetchValidate, setBaseUrl } from '../utils/api';
 import { useNavigation } from '../hooks';
+import { setSocketUrl } from '../helpers/socket';
 
 interface AuthContextProps {
   auth: Auth;
@@ -15,6 +16,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [auth, setAuth] = useState<Auth>({
     status: 'checking',
+    id: '',
     isBoss: false,
     isHRBoss: false,
   });
@@ -33,12 +35,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const sede = await getDataStorage('sede');
       setBaseUrl(sede as string);
+      setSocketUrl(sede as string);
 
-      const { isBoss, isHRBoss, jwt } = await fetchValidate();
+      const { isBoss, isHRBoss, jwt, id } = await fetchValidate();
       await setDataStorage('jwt', jwt);
       setAuth({
         ...auth, 
         status: 'authenticated', 
+        id,
         isHRBoss,
         isBoss,
       });
