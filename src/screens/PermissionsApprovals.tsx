@@ -4,12 +4,12 @@ import { PermissionForm, Table } from '../components';
 import { fetchBossPermissions } from '../utils/api';
 import { BossPermission, PermissionToBoss } from '../ts/permissions';
 import { socket } from '../helpers/socket';
-import { useAuth } from '../hooks';
+import { useAuth, useProteo } from '../hooks';
 
 const PermissionsApprovals = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [permissions, setPermissions] = useState<BossPermission[] | null>(null);
 
+  const { bossPermissions, setBossPermissions } = useProteo();
   const { auth: { id } } = useAuth();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const PermissionsApprovals = () => {
         const res = await fetchBossPermissions();
 
         if (res) {
-          setPermissions(res);
+          setBossPermissions(res);
           setIsLoading(false);
         }
       } catch (error) {
@@ -31,9 +31,7 @@ const PermissionsApprovals = () => {
   useEffect(() => {
     socket.on('permission to boss', (permission: PermissionToBoss) => {
       if (permission.bossId === id) {
-        setPermissions(prevState => (
-          prevState ? [permission, ...prevState] : [permission]
-        ));
+        setBossPermissions(bossPermissions ? [permission, ...bossPermissions] : [permission]);
       }
     });
   }, [socket]);
@@ -52,7 +50,7 @@ const PermissionsApprovals = () => {
             ]
           },
         ]}
-        data={permissions as BossPermission[]}
+        data={bossPermissions as BossPermission[]}
         isLoading={isLoading}
         showHeader={false}
         minHeight={140}

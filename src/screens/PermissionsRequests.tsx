@@ -3,13 +3,13 @@ import { View } from 'react-native';
 import { fetchPermissions } from '../utils/api';
 import { UserPermission } from '../ts/permissions';
 import { Table } from '../components';
-import { useNavigation } from '../hooks';
+import { useNavigation, useProteo } from '../hooks';
 import { socket } from '../helpers/socket';
 
 const PermissionsRequests = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [permissions, setPermissions] = useState<UserPermission[]>([]);
 
+  const { userPermissions, setUserPermissions } = useProteo();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const PermissionsRequests = () => {
         const res = await fetchPermissions();
 
         if (res) {
-          setPermissions(res);
+          setUserPermissions(res);
           setIsLoading(false);
         }
       } catch (error) {
@@ -30,9 +30,13 @@ const PermissionsRequests = () => {
 
   useEffect(() => {
     socket.on('permission to user', (data: { id: string, status: string }) => {
-      setPermissions(prevState => (
-        prevState ? prevState?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission) : []
-      ));
+      setUserPermissions(userPermissions?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission));
+
+      // --- HERE ---
+
+      // setUserPermissions((prevState:): UserPermission[] => (
+      //   prevState ? prevState?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission) : []
+      // ));
     });
   }, [socket]);
 
@@ -50,7 +54,7 @@ const PermissionsRequests = () => {
             ]
           },
         ]}
-        data={permissions as UserPermission[]}
+        data={userPermissions as UserPermission[]}
         isLoading={isLoading}
         showHeader={false}
         showSearch={true}

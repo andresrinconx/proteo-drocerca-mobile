@@ -3,8 +3,10 @@ import { pemissionFormDictionary } from '../utils/constants';
 import { fetchCreatePermission, fetchUpdatePermission } from '../utils/api';
 import { formatDate, formatHour, getDatesMs } from '../utils/dates';
 import { socket } from '../helpers/socket';
+import { useProteo } from './useProteo';
 
 export const usePermission = () => {
+  const { userPermissions, setUserPermissions } = useProteo();
 
   // create & update
   const savePermission = async (data: Permission, id: string) => {
@@ -43,6 +45,8 @@ export const usePermission = () => {
       // create
       const permissionToBoss = await fetchCreatePermission(permission);
       socket.emit('new permission', permissionToBoss);
+      setUserPermissions([{ id: permissionToBoss.id, date: permissionToBoss.date, place: lugar, status: 'Pendiente' }, ...userPermissions]);
+
     } else {
       // update
       await fetchUpdatePermission(id, permission);

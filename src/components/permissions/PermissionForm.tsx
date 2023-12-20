@@ -4,7 +4,7 @@ import { Menu, Radio } from 'native-base';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ChevronDownIcon } from 'react-native-heroicons/mini';
 import DatePicker from 'react-native-date-picker';
-import { useAuth, useForm, useNavigation, usePermission, useToast } from '../../hooks';
+import { useAuth, useForm, useNavigation, usePermission, useProteo, useToast } from '../../hooks';
 import { blue, lightGray } from '../../utils/theme';
 import { PermissionForm as PermissionFormInterface, PermissionFormProps } from '../../ts/permissions';
 import { calcPermissionTime, formatDate, formatHour } from '../../utils/dates';
@@ -20,6 +20,7 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
   });
   
   const { auth: { isHRBoss } } = useAuth();
+  const { bossPermissions, setBossPermissions } = useProteo();
   const navigation = useNavigation();
   const { showToast } = useToast();
 
@@ -302,6 +303,7 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                         try {
                           await fetchRejectPermission({ id: id as string });
                           socket.emit('response permission', { id: id as string, status: 'Rechazado' });
+                          setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Rechazado' } : permission));
 
                           showToast('Solicitud rechazada');
                           navigation.goBack();
@@ -325,6 +327,7 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                         try {
                           await fetchApprovePermission({ id: id as string });
                           socket.emit('response permission', { id: id as string, status: 'Aprobado' }); 
+                          setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Aprobado' } : permission));
 
                           showToast('Solicitud aprobada');
                           navigation.goBack();
@@ -349,6 +352,7 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                     try {
                       const permissionToBoss = await fetchApprovePermission({ id: id as string });
                       socket.emit('new permission', permissionToBoss);
+                      setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Aprobado' } : permission));
                       
                       showToast('Solicitud aprobada');
                       navigation.goBack();

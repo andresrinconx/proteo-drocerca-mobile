@@ -105,7 +105,7 @@ export const fetchPermissions = () => {
   return apiCall<UserPermission[]>(permissionsEndpoint(), 'GET');
 };
 export const fetchCreatePermission = (data: Permission) => {
-  return apiCall(permissionsEndpoint(), 'POST', data);
+  return apiCall<UserPermission>(permissionsEndpoint(), 'POST', data);
 };
 export const fetchPermission = (id: string) => {
   return apiCall<PermissionWithUser>(permissionEndpoint(id), 'GET');
