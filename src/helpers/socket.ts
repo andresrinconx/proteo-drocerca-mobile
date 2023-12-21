@@ -6,7 +6,7 @@ export let socket: Socket;
 export const setSocketUrl = async (sede: string) => {
   switch (sede) {
     case 'Mérida':
-      socket = io('http://10.0.2.2:4000');
+      socket = io(LOCAL_API_URL_MERIDA);
       break;
     case 'Centro':
       socket = io(LOCAL_API_URL_CENTRO);

@@ -31,7 +31,7 @@ const PermissionsApprovals = () => {
   useEffect(() => {
     socket.on('permission to boss', (permission: PermissionToBoss) => {
       if (permission.bossId === id) {
-        setBossPermissions(bossPermissions ? [permission, ...bossPermissions] : [permission]);
+        setBossPermissions((prevState: BossPermission[]) => [permission, ...prevState]);
       }
     });
   }, [socket]);

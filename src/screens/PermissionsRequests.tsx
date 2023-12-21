@@ -30,13 +30,9 @@ const PermissionsRequests = () => {
 
   useEffect(() => {
     socket.on('permission to user', (data: { id: string, status: string }) => {
-      setUserPermissions(userPermissions?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission));
-
-      // --- HERE ---
-
-      // setUserPermissions((prevState:): UserPermission[] => (
-      //   prevState ? prevState?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission) : []
-      // ));
+      setUserPermissions((prevState) => (
+        prevState ? prevState?.map(permission => permission.id === data.id ? { ...permission, status: data.status } : permission) : []
+      ));
     });
   }, [socket]);
 
