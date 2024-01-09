@@ -3,7 +3,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const ProfileSkeleton = () => {
   return (
-    <View className='flex-col items-center overflow-hidden'>
+    <View className='flex-col items-center pt-14 overflow-hidden'>
       {/* profile data */}
       <View className='flex-col gap-y-4 mb-10'>
         <View className='flex-row items-center gap-x-4'>
@@ -48,10 +48,10 @@ const ProfileSkeleton = () => {
       </View>
 
       {/* tabs */}
-      <View className='flex-col gap-y-0.5'>
+      {/* <View className='flex-col gap-y-0.5'>
         <View className='rounded-lg bg-light-blue' style={{ width: wp(30), height: wp(8) }} />
         <View className='rounded-lg bg-light-blue' style={{ width: wp(79), height: wp(79) }} />
-      </View>
+      </View> */}
     </View>
   );
 };

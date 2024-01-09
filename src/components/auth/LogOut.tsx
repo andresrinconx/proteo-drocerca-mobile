@@ -1,19 +1,17 @@
-import { View, Text } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Pressable } from 'react-native';
 import { useAuth } from '../../hooks';
+import { shadow } from '../../utils/theme';
+import { ArrowLeftOnRectangleIcon } from 'react-native-heroicons/mini';
 
 const LogOut = () => {
   const { logOut } = useAuth();
 
   return (
-    <View>
-      <Text className='text-blue bg-gray' 
-        style={{ fontFamily: 'Poppins-Regular', fontSize: wp(5) }}
-        onPress={logOut}
-      >
-        Log Out
-      </Text>
-    </View>
+    <Pressable onPress={logOut} className='bg-blue rounded-full p-4' 
+      style={{ ...shadow }}
+    >
+      <ArrowLeftOnRectangleIcon size={30} color='white' />
+    </Pressable>
   );
 };
 

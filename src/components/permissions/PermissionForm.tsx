@@ -283,91 +283,71 @@ const PermissionForm = ({ status, id }: PermissionFormProps) => {
                 isLoading={isRequesting}
               />
             ) : (
-              isHRBoss ? (
-                permisisonStatus !== 'Por aprobar' ? (
-                  <Button
-                    onPress={() => null}
-                    width={100} 
-                    text={permisisonStatus}
-                    disabled={true}
-                    opacity={0.8}
-                    isLoading={isRequesting}
-                  />
-                ) : (
-                  <View className='flex-row items-center justify-between'>
-
-                    {/* Reject */}
-                    <Button
-                      onPress={async () => {
-                        setForm({ isRejecting: true });
-                        try {
-                          await fetchRejectPermission({ id: id as string });
-                          socket.emit('response permission', { id: id as string, status: 'Rechazado' });
-                          setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Rechazado' } : permission));
-
-                          showToast('Solicitud rechazada');
-                          navigation.goBack();
-                        } catch (error) {
-                          showToast((error as Error).message);
-                        } finally {
-                          setForm({ isRejecting: false });
-                        }
-                      }} 
-                      width={49} 
-                      text={permisisonStatus !== 'Por aprobar' ? 'Rechazada' : 'Rechazar'}
-                      disabled={permisisonStatus !== 'Por aprobar'}
-                      opacity={permisisonStatus !== 'Por aprobar' ? 0.6 : 1}
-                      isLoading={isRejecting}
-                    />
-
-                    {/* Approve */}
-                    <Button
-                      onPress={async () => {
-                        setForm({ isRequesting: true });
-                        try {
-                          await fetchApprovePermission({ id: id as string });
-                          socket.emit('response permission', { id: id as string, status: 'Aprobado' }); 
-                          setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Aprobado' } : permission));
-
-                          showToast('Solicitud aprobada');
-                          navigation.goBack();
-                        } catch (error) {
-                          showToast((error as Error).message);
-                        } finally {
-                          setForm({ isRequesting: false });
-                        }
-                      }} 
-                      width={49} 
-                      text={permisisonStatus !== 'Por aprobar' ? 'Aprobada' : 'Aprobar'}
-                      disabled={permisisonStatus !== 'Por aprobar'}
-                      opacity={permisisonStatus !== 'Por aprobar' ? 0.8 : 1}
-                      isLoading={isRequesting}
-                    />
-                  </View>
-                )
-              ) : (
+              permisisonStatus !== 'Por aprobar' ? (
                 <Button
-                  onPress={async () => {
-                    setForm({ isRequesting: true });
-                    try {
-                      const permissionToBoss = await fetchApprovePermission({ id: id as string });
-                      socket.emit('new permission', permissionToBoss);
-                      setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Aprobado' } : permission));
-                      
-                      showToast('Solicitud aprobada');
-                      navigation.goBack();
-                    } catch (error) {
-                      showToast((error as Error).message);
-                    } finally {
-                      setForm({ isRequesting: false });
-                    }
-                  }} 
+                  onPress={() => null}
                   width={100} 
-                  text={permisisonStatus !== 'Por aprobar' ? 'Solicitud aprobada' : 'Aprobar Solicitud'}
-                  disabled={permisisonStatus !== 'Por aprobar'}
-                  opacity={permisisonStatus !== 'Por aprobar' ? 0.8 : 1}
+                  text={permisisonStatus}
+                  disabled={true}
+                  opacity={0.8}
                   isLoading={isRequesting}
                 />
+              ) : (
+                <View className='flex-row items-center justify-between'>
+
+                  {/* Reject */}
+                  <Button
+                    onPress={async () => {
+                      setForm({ isRejecting: true });
+                      try {
+                        await fetchRejectPermission({ id: id as string });
+                        socket.emit('response permission', { id: id as string, status: 'Rechazado' });
+                        setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Rechazado' } : permission));
+
+                        showToast('Solicitud rechazada');
+                        navigation.goBack();
+                      } catch (error) {
+                        showToast((error as Error).message);
+                      } finally {
+                        setForm({ isRejecting: false });
+                      }
+                    }} 
+                    width={49} 
+                    text={permisisonStatus !== 'Por aprobar' ? 'Rechazada' : 'Rechazar'}
+                    disabled={permisisonStatus !== 'Por aprobar'}
+                    opacity={permisisonStatus !== 'Por aprobar' ? 0.6 : 1}
+                    isLoading={isRejecting}
+                  />
+
+                  {/* Approve */}
+                  <Button
+                    onPress={async () => {
+                      setForm({ isRequesting: true });
+                      try {
+                        if (isHRBoss) {
+                          await fetchApprovePermission({ id: id as string });
+                          socket.emit('response permission', { id: id as string, status: 'Aprobado' }); 
+                        } else {
+                          const permissionToBoss = await fetchApprovePermission({ id: id as string });
+                          socket.emit('new permission', permissionToBoss);
+                        }
+                        setBossPermissions(bossPermissions.map(permission => permission.id === id ? { ...permission, status: 'Aprobado' } : permission));
+
+                        showToast('Solicitud aprobada');
+                        navigation.goBack();
+                      } catch (error) {
+                        showToast((error as Error).message);
+                      } finally {
+                        setForm({ isRequesting: false });
+                      }
+                    }} 
+                    width={49} 
+                    text={permisisonStatus !== 'Por aprobar' ? 'Aprobada' : 'Aprobar'}
+                    disabled={permisisonStatus !== 'Por aprobar'}
+                    opacity={permisisonStatus !== 'Por aprobar' ? 0.8 : 1}
+                    isLoading={isRequesting}
+                  />
+                </View>
               )
             )}
           </View>

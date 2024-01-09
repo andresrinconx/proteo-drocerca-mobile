@@ -56,6 +56,7 @@ const PermissionsApprovals = () => {
         minHeight={140}
         maxHeight={140}
         showSearch={true}
+        noRecordsMessage='No hay solicitudes recientes'
         renderItem={(item) => (
           <PermissionForm status='approval' id={item?.id || ''} />  
         )}

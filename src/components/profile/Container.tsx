@@ -6,6 +6,7 @@ import { fetchProfile } from '../../utils/api';
 import { Profile } from '../../ts/user';
 import ProfileSkeleton from './ProfileSkeleton';
 import ProfileField from './ProfileField';
+import LogOut from '../auth/LogOut';
 
 const Container = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,10 +29,10 @@ const Container = () => {
   }, []);
 
   return (
-    <View className='px-4 pt-10 bg-background'
+    <View className='px-4 bg-background'
       style={{ 
         ...shadow, 
-        flex: 1, 
+        height: wp(140),
         borderTopLeftRadius: wp(16), 
         borderTopRightRadius: wp(16) 
       }}
@@ -39,11 +40,11 @@ const Container = () => {
       {isLoading ? (
         <ProfileSkeleton />
       ) : (
-        <>
-          {/* profile data */}
-          <View className='flex-col gap-y-4 mb-10'>
+        <View className='flex-1 flex-col items-center justify-between pt-14 gap-y-4'>
+
+          <View>
             {/* img & name */}
-            <View className='flex-row items-center gap-x-4'>
+            <View className='flex-row items-center gap-x-4 pb-4'>
               <Image style={{ width: 55, height: 55 }} resizeMode='cover'
                 source={require('../../assets/profile-pencil.png')}
               />
@@ -69,11 +70,11 @@ const Container = () => {
             </View>
           </View>
 
-          {/* tabs */}
-          <View className=''>
-            
+          {/* log out */}
+          <View className='absolute bottom-0 right-0 mb-8 mr-4'>
+            <LogOut />
           </View>
-        </>
+        </View>
       )}
     </View>
   );

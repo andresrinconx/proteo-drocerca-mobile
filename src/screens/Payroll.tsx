@@ -72,7 +72,6 @@ const Payroll = () => {
       <DatePicker
         modal
         mode='date'
-        maximumDate={new Date()}
         open={isDatePickerOpen}
         date={payrollDate}
         onConfirm={(date) => {
